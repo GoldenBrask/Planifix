@@ -120,10 +120,10 @@ app.post('/add', (req, res) => {
         res.redirect('/login');
         return;
     }
-    const { tmdb_id, title, date, poster, type, frequency } = req.body;
+    const { tmdb_id, title, date, poster, type} = req.body;
 
     const user_id = res.locals.id;
-    const item_id = model.add_item(tmdb_id, title, date, poster, type, frequency, user_id);
+    const item_id = model.add_item(tmdb_id, title, date, poster, type,user_id);
 
 
     if (item_id > 0) {
@@ -219,7 +219,6 @@ function update_item_from_request(item, req) {
     item.date = req.body.date;
     item.poster = req.body.poster;
     item.type = req.body.type;
-    item.frequency = req.body.frequency;
 }
 
 

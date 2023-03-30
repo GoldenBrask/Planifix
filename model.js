@@ -59,8 +59,8 @@ function userExist(email) {
 
 
 ////////////////////////GESTION DES DONNéES////////////////////////////////////////////////
-exports.add_item = function (tmdb_id, title, date, poster, type, frequency, user_id) {
-    const result = db.prepare('INSERT INTO item (tmdb_id, title, date, poster, type, frequency) VALUES (?, ?, ?, ?, ?, ?)').run(tmdb_id, title, date, poster, type, frequency);
+exports.add_item = function (tmdb_id, title, date, poster, type, user_id) {
+    const result = db.prepare('INSERT INTO item (tmdb_id, title, date, poster, type) VALUES (?, ?, ?, ?, ?)').run(tmdb_id, title, date, poster, type);
     if (result.changes == 1) {
         const item_id = result.lastInsertRowid;
         const userItemAdded = addUserItem(user_id, item_id);
@@ -71,8 +71,8 @@ exports.add_item = function (tmdb_id, title, date, poster, type, frequency, user
 };
 
 exports.update_item = function (item_id,item) {
-    const sql = `UPDATE item SET tmdb_id = ?, title = ?, date = ?, poster = ?, type = ?, frequency = ? WHERE id = ?`;
-    const result = db.prepare(sql).run(item.tmdb_id, item.title, item.date, item.poster, item.type, item.frequency, item_id);
+    const sql = `UPDATE item SET tmdb_id = ?, title = ?, date = ?, poster = ?, type = ? WHERE id = ?`;
+    const result = db.prepare(sql).run(item.tmdb_id, item.title, item.date, item.poster, item.type, item_id);
     return result.changes == 1;
 };
 
