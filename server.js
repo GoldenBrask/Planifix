@@ -167,6 +167,15 @@ app.post('/user_space', (req, res) => {
     res.render('user_space',userData);
 });
 
+// Route GET "/anime"
+app.get('/anime', (req, res) => {
+    if (!res.locals.authenticated) {
+        res.redirect('/login');
+        return;
+    }
+    res.render('anime');
+});
+
 
 // Route POST "/edit/:id"
 app.post('/edit/:id', (req, res) => {

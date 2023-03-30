@@ -48,22 +48,13 @@ body {
     cursor: pointer;
 }
 
-h1 {
-    font-family: 'Righteous', sans-serif;
-    text-align: center;
-    color: #ffffff;
-    background-image: url('oui.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    padding: 20px;
-    margin-bottom: 20px;
-}
-
-h2{
+h2 {
+    margin-top: 50px;
     font-family: 'Righteous', sans-serif;
     text-align: left;
     margin-left: 10px;
     color: #ffffff;
+    align-self: flex-start;
 }
 
 
@@ -95,7 +86,7 @@ h2{
     text-transform: uppercase;
 }
 
-.wrapper p span{
+.wrapper p span {
     font-size: smaller;
 }
 
@@ -108,8 +99,12 @@ h2{
     border: 1px solid rgba(255, 255, 255, 0.255);
 }
 
-.content-wrapper{
-    margin-bottom: 80px;
+.content-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 80px;
 }
 
 .slider {
@@ -120,7 +115,7 @@ h2{
     white-space: nowrap;
     margin-bottom: 20px;
     /*background-color: rgba(255, 0, 0, 0.062);*/
-    
+
 }
 
 .slide {
@@ -136,14 +131,103 @@ h2{
     white-space: nowrap;
     overflow: clip;
     text-overflow: ellipsis;
-    width: 100%; /* Vous pouvez ajuster cette valeur en fonction de la largeur souhaitée */
-    max-width: 200px; /* Vous pouvez ajuster cette valeur en fonction de la largeur maximale souhaitée */
+    width: 100%;
+    /* Vous pouvez ajuster cette valeur en fonction de la largeur souhaitée */
+    max-width: 200px;
+    /* Vous pouvez ajuster cette valeur en fonction de la largeur maximale souhaitée */
 }
 
+.top {
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    width: 80vw;
+    background: rgba(255, 255, 255, 0.056);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
 
+.top p{
+    color: #ffffff;
+    font-weight: bold;
+}
 
+.searchOption{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.searchOption p{
+    color: #ffffff;
+}
 
+#instructions{
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
 
+.right,
+.left {
+    --b: .3em;
+    --c: 2em;
+    --r: 1em;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    width: 300px;
+    height: 80px;
+    font-family: "Poppins", sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    position: relative;
+    margin: 1em auto;
+    border: solid var(--b) transparent;
+    padding: 1em;
+    max-width: 23em;
+}
 
+.right::before,
+.left::before {
+    position: absolute;
+    z-index: -1;
+    inset: calc(-1*var(--b));
+    border: inherit;
+    border-radius: var(--r);
+    background: linear-gradient(rgb(0, 255, 98), rgb(0, 76, 76), rgb(128, 128, 0)) border-box;
+    --corner:
+        conic-gradient(from -90deg at var(--c) var(--c), rgb(0, 255, 145) 25%, #ffffff00 0) 0 0/ calc(100% - var(--c)) calc(100% - var(--c)) border-box;
+    --inner: conic-gradient(rgb(0, 255, 145) 0 0) padding-box;
+    -webkit-mask: var(--corner), var(--inner);
+    -webkit-mask-composite: source-out;
+    mask: var(--corner) subtract, var(--inner);
+    content: ''
+}
 
+.right button {
+    width: 100%;
+    background-color: #ffffff;
+    color: #080710;
+    padding: 9px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: "Poppins", sans-serif;
+    letter-spacing: 0.5px;
+    outline: none;
+    border: none;
+    transition: .5s;
+}
 
+.right button:hover{
+    background-color: #57bd84;
+    transition: .5s;
+}
