@@ -89,11 +89,22 @@ exports.get_item = function(item_id) {
 }
 
 
-
 exports.get_user_items = function (user_id) {
     const items = db.prepare('SELECT item.* FROM item JOIN user_item ON item.id = user_item.item_id WHERE user_item.user_id = ?').all(user_id);
     return {items : items}
 };
+
+
+exports.get_user_data = function (user_id) {
+    const result = db.prepare('SELECT * FROM user WHERE id = ?').get(user_id);
+    if (result && result.email) {
+        return result.email;
+    } else {
+        return null;
+    }
+};
+
+
 
 function addUserItem(user_id, item_id) {
     const result = db.prepare('INSERT INTO user_item (user_id, item_id) VALUES (?, ?)').run(user_id, item_id);
