@@ -26,9 +26,9 @@
         <h2>MA WATCHLIST :</h2>
         <div class="slider">
             {{#items}}
-            <div class="slide" >
+            <div class="slide">
                 <div class="container {{#type}}container-{{type}}{{/type}}">
-                    <div class="wrapper" >
+                    <div class="wrapper">
                         <div class="banner-image" style="background-image: url({{poster}});"> </div>
                         <br>
                         <p class="truncate">
@@ -44,9 +44,9 @@
             </div>
             {{/items}}
             {{^items}}
-            <div class="slide" >
+            <div class="slide">
                 <div class="container">
-                    <div class="wrapper" >
+                    <div class="wrapper">
                         <div class="banner-image" style="background-image: url('oui.png');"> </div>
                         <br>
                         <p class="truncate">
@@ -55,7 +55,7 @@
                             <span>{{date}}</span>
                         </p>
                         <form action="/delete/{{id}}" method="post">
-                            <button type="submit">Ajouter  + </button>
+                            <button type="submit">Ajouter + </button>
                         </form>
                     </div>
                 </div>
@@ -64,12 +64,12 @@
 
         </div>
 
-        
+        <!-- Bouton Modifier -->
+        <button id="editButton">Modifier</button>
     </div>
 
 
-    <!-- Bouton Modifier -->
-    <button id="editButton">Modifier</button>
+
 
     <!-- Fenêtre modale -->
     <div id="editModal" class="modal">
