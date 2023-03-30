@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="dashboard.css">
+
+    <title>Modifier votre profil</title>
+</head>
+
+<body>
+    <div class="content-wrapper">
+
+        <h1>Bienvenue, {{username}}</h1>
+
+
+        <form action="/search" method="GET" class="search-form">
+            <input type="text" name="query" placeholder="Recherchez un film, une série ou un manga...">
+            <button type="submit">Rechercher</button>
+        </form>
+
+
+        <h2>MA WATCHLIST :</h2>
+        <div class="slider">
+            {{#items}}
+            <div class="slide">
+                <div class="container {{#type}}container-{{type}}{{/type}}">
+                    <div class="wrapper">
+                        <div class="banner-image" style="background-image: url({{poster}});"> </div>
+                        <br>
+                        <p class="truncate">
+                            {{title}}
+                            <br>
+                            <span>{{date}}</span>
+                        </p>
+                        <form action="/delete/{{id}}" method="post">
+                            <button type="submit">Supprimer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {{/items}}
+            {{^items}}
+            <div class="slide">
+                <div class="container">
+                    <div class="wrapper">
+                        <div class="banner-image" style="background-image: url('oui.png');"> </div>
+                        <br>
+                        <p class="truncate">
+                            Ajouter un nouvel element
+                            <br>
+                            <span>{{date}}</span>
+                        </p>
+                        <form action="/delete/{{id}}" method="post">
+                            <button type="submit">Ajouter + </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {{/items}}
+
+        </div>
+
+        <!-- Bouton Modifier -->
+        <button id="editButton">Modifier</button>
+    </div>
+
+
+
+
+    <!-- Fenêtre modale -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Modifier les informations</h2>
+            <!-- Ajoutez votre formulaire de modification ici -->
+            <form>
+                <label for="title">Titre</label>
+                <input type="text" id="title" name="title" placeholder="Titre">
+                <!-- Ajoutez d'autres champs de formulaire si nécessaire -->
+            </form>
+        </div>
+    </div>
+
+
+    {{> navbar}}
+
+
+
+    <script>
+        // Récupérer les éléments
+        const editButton = document.getElementById("editButton");
+        const editModal = document.getElementById("editModal");
+        const closeButton = document.querySelector(".close");
+
+        // Ouvrir la fenêtre modale lors du clic sur le bouton Modifier
+        editButton.onclick = function () {
+            editModal.style.display = "block";
+        };
+
+        // Fermer la fenêtre modale lors du clic sur le bouton de fermeture (x)
+        closeButton.onclick = function () {
+            editModal.style.display = "none";
+        };
+
+        // Fermer la fenêtre modale lors du clic en dehors du contenu de la fenêtre modale
+        window.onclick = function (event) {
+            if (event.target == editModal) {
+                editModal.style.display = "none";
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const slider = document.querySelector('.slider');
+            slider.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                slider.scrollLeft += e.deltaY;
+                slider.scrollLeft += e.deltaX;
+            });
+        });
+
+    </script>
+</body>
+
+</html>
