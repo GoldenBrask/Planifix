@@ -222,7 +222,6 @@ function update_item_from_request(item, req) {
 }
 
 
-
 app.get('/search', async (req, res) => {
     if (!res.locals.authenticated) {
         res.redirect('/login');
