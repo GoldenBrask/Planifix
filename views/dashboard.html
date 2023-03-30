@@ -5,25 +5,41 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="navbar.css">
     <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="searchbar.css">
 
     <title>Votre espace</title>
 </head>
 
 <body>
+    {{> navbar}}
     <div class="content-wrapper">
 
-        <h1>Bienvenue, {{username}}</h1>
+        <div class="top">
 
+            <p id="instructions">AJOUTEZ UN FILM, UNE SÉRIE, UN MANGA OU UN ÉVÉNEMENT À VOTRE LISTE.</p>
 
-        <form action="/search" method="GET" class="search-form">
-            <input type="text" name="query" placeholder="Recherchez un film, une série ou un manga...">
-            <button type="submit">Rechercher</button>
-        </form>
+            <div class="searchOption">
+                <div class="left">
+                    <p class="">PAR RECHERCHE</p>
+                    <form class="searchbar" action="/search" method="GET" class="search" role="search">
+                        <input id="search" name="query" type="search" placeholder="Search..." autofocus required />
+                        <button type="submit" id="searchButton">Go</button>
+                    </form>
+                </div>
 
+                <p>OU</p>
 
-        <h2>MA WATCHLIST :</h2>
+                <div class="right">
+                    <p>MANUELLEMENT</p>
+                    <button id="addButton">Ajouter</button>
+                </div>
+            </div>
+        </div>
+
+        <h2>MA LISTE :</h2>
         <div class="slider">
             {{#items}}
             <div class="slide">
@@ -61,11 +77,7 @@
                 </div>
             </div>
             {{/items}}
-
         </div>
-
-        <!-- Bouton Modifier -->
-        <button id="editButton">Modifier</button>
     </div>
 
 
@@ -86,13 +98,13 @@
     </div>
 
 
-    {{> navbar}}
+
 
 
 
     <script>
         // Récupérer les éléments
-        const editButton = document.getElementById("editButton");
+        const editButton = document.getElementById("addButton");
         const editModal = document.getElementById("editModal");
         const closeButton = document.querySelector(".close");
 
@@ -121,6 +133,32 @@
                 slider.scrollLeft += e.deltaX;
             });
         });
+
+
+        /*SEARCH BUTTON*/
+        const searchInput = document.getElementById("search");
+        const searchButton = document.getElementById("searchButton");
+
+        searchInput.addEventListener("input", () => {
+            if (searchInput.value) {
+                searchButton.style.display = "block";
+            } else {
+                searchButton.style.display = "none";
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const navLinks = document.querySelectorAll(".navbar a");
+            const currentUrl = window.location.pathname;
+
+            navLinks.forEach((link) => {
+                if (link.getAttribute("href") === currentUrl) {
+                    link.classList.add("active");
+                }
+            });
+        });
+
+
 
     </script>
 </body>
