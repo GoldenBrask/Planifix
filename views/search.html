@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="dashboard.css">
+    <title>Recherche</title>
+</head>
+
+<body>
+    <h1>Résultats de la recherche</h1>
+    <ul>
+        {{#results}}
+        <li>
+            <img src="https://image.tmdb.org/t/p/w92{{poster_path}}" alt="{{title}}">
+            <h3>{{title}}{{name}}</h3>
+            <p>Date de sortie: {{release_date}}{{first_air_date}}</p>
+
+            <button class="editButton">Ajouter</button>
+
+            <div class="myModal modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <form id="modal-form" action="/add" method="post">
+
+                        <input type="hidden" id="tmdb_id" name="tmdb_id" value="{{id}}">
+
+                        <label for="title">Titre :</label>
+                        <input type="text" id="title" name="title" value="{{title}}{{name}}" required>
+
+                        <label for="date">Date :</label>
+                        <input type="text" id="date" name="date" value="{{release_date}}{{first_air_date}}" required>
+
+                        <label for="poster">Affiche :</label>
+                        <input type="text" id="poster" name="poster"
+                            value="https://image.tmdb.org/t/p/original{{poster_path}}" required>
+
+                        <label for="type">Type :</label>
+                        <select id="type" name="type" required>
+                            <option value="films">Films</option>
+                            <option value="series">Séries</option>
+                            <option value="manga">Manga</option>
+                            <option value="evenement">Événement</option>
+                        </select>
+
+
+                        <button type="submit">Envoyer</button>
+                    </form>
+                </div>
+            </div>
+
+
+        </li>
+        {{/results}}
+    </ul>
+
+
+    <script>
+        // Récupérer les éléments
+        const editButtons = document.querySelectorAll(".editButton");
+
+        // Ajouter un écouteur d'événements pour chaque bouton Modifier
+        editButtons.forEach((button) => {
+            button.onclick = function () {
+                // Récupérer la fenêtre modale correspondante
+                const editModal = button.nextElementSibling;
+
+                // Ouvrir la fenêtre modale
+                editModal.style.display = "block";
+
+                // Récupérer le bouton de fermeture (x) de cette fenêtre modale
+                const closeButton = editModal.querySelector(".close");
+
+                // Fermer la fenêtre modale lors du clic sur le bouton de fermeture (x)
+                closeButton.onclick = function () {
+                    editModal.style.display = "none";
+                };
+            };
+        });
+
+        // Fermer la fenêtre modale lors du clic en dehors du contenu de la fenêtre modale
+        window.onclick = function (event) {
+            if (event.target.classList.contains("modal")) {
+                event.target.style.display = "none";
+            }
+        };
+
+    </script>
+</body>
+
+</html>

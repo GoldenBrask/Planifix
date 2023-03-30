@@ -1,0 +1,133 @@
+:root {
+    --white: rgba(255, 255, 255, 0.3);
+}
+
+* {
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+}
+
+body {
+    background-color: #004C4C;
+}
+
+#logo {
+    width: 400px;
+}
+
+.top {
+    background-image: url('oui.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 550px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.top p {
+    color: #bdbdbd00;
+    -webkit-text-stroke: 0.5px rgb(255, 255, 255);
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-top: 20px;
+}
+
+.bot {
+    height: 38%;
+    width: 100%;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.button-19 {
+    appearance: button;
+    background-color: #D9D9D9;
+    border: solid transparent;
+    border-radius: 16px;
+    border-width: 0 0 4px;
+    box-sizing: border-box;
+    color: #000000;
+    cursor: pointer;
+    display: inline-block;
+    font-family: din-round, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: .8px;
+    line-height: 20px;
+    margin-right: 20px;
+    outline: none;
+    overflow: visible;
+    padding: 13px 16px;
+    text-align: center;
+    text-transform: uppercase;
+    touch-action: manipulation;
+    transform: translateZ(0);
+    transition: filter .2s;
+    user-select: none;
+    -webkit-user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
+    width: 200px;
+}
+
+.button-19:after {
+    background-clip: padding-box;
+    background-color: #f5f5f5;
+    border: solid transparent;
+    border-radius: 16px;
+    border-width: 0 0 4px;
+    bottom: -4px;
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: -1;
+}
+
+.button-19:main,
+.button-19:focus {
+    user-select: auto;
+}
+
+.button-19:hover:not(:disabled) {
+    filter: brightness(1.1);
+    -webkit-filter: brightness(1.1);
+}
+
+.button-19:disabled {
+    cursor: auto;
+}
+
+.bot{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.description{
+    width: 35vw;
+    border-radius: 8px;
+    margin-left: 20px;
+    padding: 8px;
+    box-shadow: rgba(215, 215, 215, 0.05) -2px 2px,rgba(215, 215, 215, 0.05) 2px -2px;
+}
+
+.images img{
+    transform: rotate3d(1, 1, 0, -30deg);
+}
+

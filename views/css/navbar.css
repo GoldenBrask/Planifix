@@ -1,0 +1,50 @@
+/* navbar.css */
+.navbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-image: url('fondnav.png');  
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: 1;
+    padding: 10px 0;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.navbar li {
+    display: inline;
+}
+
+.navbar a {
+    position: relative;
+    text-decoration: none;
+    color: #fff;
+    letter-spacing: .5px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.navbar li a:before {
+    content: "";
+    position: absolute;
+    height: 3px;
+    width: 0;
+    background: #007c7c;
+    transition: .5s;
+    left: 0;
+    bottom: -10px;
+}
+
+.navbar li a:hover:before {
+    width: 100%;
+}
