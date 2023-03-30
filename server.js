@@ -46,6 +46,7 @@ app.get('/', (req, res) => {
     if (!res.locals.authenticated) {
         res.render('index');
     } else {
+    
         res.redirect('/dashboard');
     }
 });
@@ -110,6 +111,7 @@ app.get('/dashboard', (req, res) => {
 
     const userItems = model.get_user_items(res.locals.id);
     console.log(userItems);
+
     res.render('dashboard', userItems);
 });
 
@@ -143,16 +145,15 @@ app.get('/edit/:id', (req, res) => {
     const item = model.get_item(req.params.id)
     res.render('edit', item);
 });
-
 // Route GET "/user_space"
 app.get('/user_space', (req, res) => {
     if (!res.locals.authenticated) {
         res.redirect('/login');
         return;
     }
-    const id = req.session.id;
-    const userData = model.getUserData(id);
-    res.render('user_space',userData);
+    const user_id = res.locals.id;
+    const user_data = model.get_user_data(user_id);
+    res.render('user_space',{email : user_data});
 });
 
 // Route POST "/user_space"
@@ -162,9 +163,9 @@ app.post('/user_space', (req, res) => {
         res.redirect('/login');
         return;
     }
-    const id = req.locals.id;
-    const userData = getUserData(id);
-    res.render('user_space',userData);
+    const id = res.locals.id;
+    const user_data = get_user_data(id);
+    res.render('user_space',{email : user_data});
 });
 
 // Route GET "/anime"
