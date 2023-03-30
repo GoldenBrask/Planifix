@@ -144,13 +144,29 @@ app.get('/edit/:id', (req, res) => {
     res.render('edit', item);
 });
 
+// Route GET "/user_space"
 app.get('/user_space', (req, res) => {
     if (!res.locals.authenticated) {
         res.redirect('/login');
         return;
     }
-    res.render('user_space');
+    const id = req.session.id;
+    const userData = model.getUserData(id);
+    res.render('user_space',userData);
 });
+
+// Route POST "/user_space"
+
+app.post('/user_space', (req, res) => {
+    if (!res.locals.authenticated) {
+        res.redirect('/login');
+        return;
+    }
+    const id = req.locals.id;
+    const userData = getUserData(id);
+    res.render('user_space',userData);
+});
+
 
 // Route POST "/edit/:id"
 app.post('/edit/:id', (req, res) => {
