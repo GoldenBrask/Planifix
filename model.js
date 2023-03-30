@@ -94,6 +94,7 @@ exports.get_user_items = function (user_id) {
     return {items : items}
 };
 
+
 exports.get_user_data = function (user_id) {
     const result = db.prepare('SELECT * FROM user WHERE id = ?').get(user_id);
     if (result && result.email) {
