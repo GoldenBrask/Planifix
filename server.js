@@ -144,6 +144,14 @@ app.get('/edit/:id', (req, res) => {
     res.render('edit', item);
 });
 
+app.get('/user_space', (req, res) => {
+    if (!res.locals.authenticated) {
+        res.redirect('/login');
+        return;
+    }
+    res.render('user_space');
+});
+
 // Route POST "/edit/:id"
 app.post('/edit/:id', (req, res) => {
 
