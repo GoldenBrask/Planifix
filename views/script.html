@@ -1,0 +1,82 @@
+<script>
+    // Récupérer les éléments
+    const editButton = document.getElementById("addButton");
+    const editModal = document.getElementById("editModal");
+    const closeButton = document.querySelector(".close");
+
+    // Ouvrir la fenêtre modale lors du clic sur le bouton Modifier
+    editButton.onclick = function () {
+        editModal.style.display = "block";
+    };
+
+    // Fermer la fenêtre modale lors du clic sur le bouton de fermeture (x)
+    closeButton.onclick = function () {
+        editModal.style.display = "none";
+    };
+
+    // Fermer la fenêtre modale lors du clic en dehors du contenu de la fenêtre modale
+    window.onclick = function (event) {
+        if (event.target == editModal) {
+            editModal.style.display = "none";
+        }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const slider = document.querySelector('.slider');
+        slider.addEventListener('wheel', (e) => {
+            if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+                e.preventDefault();
+                slider.scrollLeft += e.deltaX;
+            }
+        });
+    });
+
+
+
+    /*SEARCH BUTTON*/
+    const searchInput = document.getElementById("search");
+    const searchButton = document.getElementById("searchButton");
+
+    searchInput.addEventListener("input", () => {
+        if (searchInput.value) {
+            searchButton.style.display = "block";
+        } else {
+            searchButton.style.display = "none";
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const navLinks = document.querySelectorAll(".navbar a");
+        const currentUrl = window.location.pathname;
+
+        navLinks.forEach((link) => {
+            if (link.getAttribute("href") === currentUrl) {
+                link.classList.add("active");
+            }
+        });
+    });
+
+    window.addEventListener('scroll', function () {
+        const header = document.querySelector('nav');
+        header.classList.toggle("sticky", window.scrollY > 0);
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const slider = document.querySelector(".slider");
+        const arrowLeft = document.querySelector('.arrow-left');
+        const arrowRight = document.querySelector('.arrow-right');
+
+        arrowLeft.addEventListener("click", () => {
+            slider.scrollBy({ left: -300, behavior: "smooth" });
+        });
+
+        arrowRight.addEventListener("click", () => {
+            slider.scrollBy({ left: 300});
+        });
+    });
+
+
+
+
+
+</script>

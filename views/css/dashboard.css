@@ -231,3 +231,30 @@ h2 {
     background-color: #57bd84;
     transition: .5s;
 }
+
+.sticky{
+    background: #000000;
+}
+
+.slider {
+    position: relative;
+}
+
+.arrow-left,
+.arrow-right {
+    position: fixed;
+    z-index: 2;
+    width: 32px;
+    cursor: pointer;
+}
+
+.arrow-left {
+    top: calc(50% - 20px); /* Centrer verticalement */
+    left: 10px;
+    rotate: 180deg;
+}
+
+.arrow-right {
+    top: calc(50% - 20px); /* Centrer verticalement */
+    right: 10px;
+}
