@@ -43,17 +43,12 @@
 
         <div class="slider">
 
-            <div class="arrow-left">
-                <img src="arrow.png" alt="Left arrow">
-            </div>
-            <div class="arrow-right">
-                <img src="arrow.png" alt="Right arrow">
-            </div>
-
             {{#items}}
             <div class="slide">
-                <div class="container {{#type}}container-{{type}}{{/type}}">
+                <div class="container">
+                    <p data-release-date="{{date}}" id="ribbon"></p>
                     <div class="wrapper">
+
                         <div class="banner-image" style="background-image: url({{poster}});"> </div>
                         <br>
                         <p class="truncate">
@@ -71,27 +66,101 @@
             {{^items}}
             <div class="slide">
                 <p>Votre liste est vide </p>
-                {{/items}}
             </div>
+            {{/items}}
+        </div>
+
+        <div class="arrow">
+            <img src="arrow.png" alt="Left arrow" id="arrow-left" width="32">
+            <img src="arrow.png" alt="Right arrow" id="arrow-right" width="32">
+        </div>
+
+        <h2>Films à venir :</h2>
+        <div class="slider">
+            {{#upcomingMovies}}
+            <div class="slide">
+                <div class="container">
+                    <p data-release-date="{{release_date}}" id="ribbon"></p>
+                    <div class="wrapper">
+
+                        <div class="banner-image" style="background-image: url(https://image.tmdb.org/t/p/w92{{poster_path}});"> </div>
+                        <br>
+                        <p class="truncate">
+                            {{title}}{{name}}
+                            <br>
+                            <span>{{date}}{{first_air_date}}</span>
+                        </p>
+                        <form action="/delete/{{id}}" method="post">
+                            <button type="submit">Supprimer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {{/upcomingMovies}}
+            {{^upcomingMovies}}
+            <div class="slide">
+                <p>Pas de films à venir</p>
+            </div>
+            {{/upcomingMovies}}
+        </div>
+
+        <!-- Recommendations Slider -->
+        <h2>Recommandations :</h2>
+        <div class="slider">
+            {{#recommendations}}
+            <div class="slide">
+                <div class="container">
+                    <p data-release-date="{{release_date}}" id="ribbon"></p>
+                    <div class="wrapper">
+
+                        <div class="banner-image" style="background-image: url(https://image.tmdb.org/t/p/w92{{poster_path}});"> </div>
+                        <br>
+                        <p class="truncate">
+                            {{title}}{{name}}
+                            <br>
+                            <span>{{date}}{{first_air_date}}</span>
+                        </p>
+                        <form action="/delete/{{id}}" method="post">
+                            <button type="submit">Supprimer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {{/recommendations}}
+            {{^recommendations}}
+            <div class="slide">
+                <p>Pas de recommandations</p>
+            </div>
+            {{/recommendations}}
         </div>
 
 
-
-
-        <!-- Fenêtre modale -->
         <div id="editModal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
-                <h2>Modifier les informations</h2>
-                <!-- Ajoutez votre formulaire de modification ici -->
-                <form>
-                    <label for="title">Titre</label>
-                    <input type="text" id="title" name="title" placeholder="Titre">
-                    <!-- Ajoutez d'autres champs de formulaire si nécessaire -->
+                <form id="modal-form" action="/add" method="post">
+
+                    <input type="text" id="title" name="title" value="{{title}}{{name}}" placeholder="Titre" required>
+
+                    <input type="date" id="date" name="date" value="{{release_date}}{{first_air_date}}"
+                        placeholder="Date" required>
+
+                    <input type="file" accept="image/*" id="poster" name="poster" placeholder="poster" required>
+
+                    <select id="type" name="type" required>
+                        <option value="Film">Film</option>
+                        <option value="Série">Série</option>
+                        <option value="Anime">Anime</option>
+                        <option value="Événement">Événement</option>
+                    </select>
+
+
+                    <button type="submit">Envoyer</button>
                 </form>
             </div>
         </div>
-        {{> script}}
+    </div>
+    {{> script}}
 </body>
 
 </html>

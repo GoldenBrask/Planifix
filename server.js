@@ -15,7 +15,19 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 
 const secret = crypto.randomBytes(32).toString('hex');
-const api_key = 'e49d6088a7c6032be073e1e136e761fa'
+const api_key = 'e49d6088a7c6032be073e1e136e761fa';
+
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+    cloud_name: 'dcktbp159',
+    api_key: '527681711682353',
+    api_secret: 'jTjVULtJ63B9kioQW-vTVz0gmfU',
+});
+
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
+
 
 
 app.use(cookieSession({
@@ -103,20 +115,28 @@ app.get('/logout', (req, res) => {
 });
 
 // Route GET "/dashboard"
-app.get('/dashboard', (req, res) => {
+app.get('/dashboard', async (req, res) => {
     if (!res.locals.authenticated) {
         res.redirect('/login');
         return;
     }
 
     const userItems = model.get_user_items(res.locals.id);
-    console.log(userItems);
+    const upcomingMovies = await model.get_upcoming_movies();
+    console.log(upcomingMovies)
 
-    res.render('dashboard', userItems);
+    const recommendations = await model.get_recommendations("900667");
+    
+
+    res.render('dashboard', {
+        items: userItems.items,
+        upcomingMovies,
+        recommendations,
+    });
 });
 
 // Route POST "/add"
-app.post('/add', (req, res) => {
+app.post('/add', async (req, res) => {
 
     if (!res.locals.authenticated) {
         res.redirect('/login');
@@ -126,6 +146,17 @@ app.post('/add', (req, res) => {
 
     const user_id = res.locals.id;
     const item_id = model.add_item(tmdb_id, title, date, poster, type,user_id);
+
+    if (req.file) {
+        try {
+            const result = await cloudinary.uploader.upload(req.file.path);
+            item.poster = result.secure_url;
+        } catch (err) {
+            console.error('Error uploading image to Cloudinary:', err);
+            res.status(500).send('Erreur lors de l\'envoi de l\'image');
+            return;
+        }
+    }
 
 
     if (item_id > 0) {
