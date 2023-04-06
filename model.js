@@ -92,13 +92,15 @@ exports.update_item = function (item_id, item) {
 
 exports.delete_item = function (user_id, item_id) {
     const info = db.prepare('DELETE FROM user_item WHERE user_id = ? AND item_id = ?').run(user_id, item_id);
-    const used = db.prepare('SELECT * FROM user_item WHERE item_id = ?').run(item_id)
-    if(used == undefined){
+    const used = db.prepare('SELECT COUNT(*) as count FROM user_item WHERE item_id = ?').get(item_id);
+
+    if (used.count === 0) {
         const delete_item = db.prepare('DELETE FROM item WHERE id = ?').run(item_id);
     }
-    return info.changes == 1;
 
+    return info.changes == 1;
 }
+
 
 exports.get_item = function (item_id) {
     const item = db.prepare('SELECT * FROM item WHERE id = ?').get(item_id);
