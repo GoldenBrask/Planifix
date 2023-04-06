@@ -23,7 +23,7 @@
 
             <div class="searchOption">
                 <div class="left">
-                    <p class="">PAR RECHERCHE</p>
+                    <p class="">PAR RECHERCHE {{addedtitle}}</p>
                     <form class="searchbar" action="/search" method="GET" class="search" role="search">
                         <input id="search" name="query" type="search" placeholder="Search..." autofocus required />
                         <button type="submit" id="searchButton">Go</button>
@@ -46,7 +46,7 @@
             {{#items}}
             <div class="slide">
                 <div class="container">
-                    <p data-release-date="{{date}}" id="ribbon"></p>
+                    <p data-release-date="{{date}}" class="ribbon list-ribbon"></p>
                     <div class="wrapper">
 
                         <div class="banner-image" style="background-image: url({{poster}});"> </div>
@@ -76,23 +76,20 @@
         </div>
 
         <h2>Films à venir :</h2>
-        <div class="slider">
+        <div class="slider ">
             {{#upcomingMovies}}
             <div class="slide">
                 <div class="container">
-                    <p data-release-date="{{release_date}}" id="ribbon"></p>
+                    <p data-release-date="{{release_date}}" class="ribbon"></p>
                     <div class="wrapper">
 
-                        <div class="banner-image" style="background-image: url(https://image.tmdb.org/t/p/w92{{poster_path}});"> </div>
+                        <div class="banner-image" style="background-image: url(https://image.tmdb.org/t/p/w500{{poster_path}});"> </div>
                         <br>
                         <p class="truncate">
                             {{title}}{{name}}
                             <br>
                             <span>{{date}}{{first_air_date}}</span>
                         </p>
-                        <form action="/delete/{{id}}" method="post">
-                            <button type="submit">Supprimer</button>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -111,23 +108,20 @@
 
         <!-- Recommendations Slider -->
         <h2>Recommandations :</h2>
-        <div class="slider">
+        <div class="slider ">
             {{#recommendations}}
             <div class="slide">
                 <div class="container">
-                    <p data-release-date="{{release_date}}" id="ribbon"></p>
+                    <p data-release-date="{{release_date}}" class="ribbon"></p>
                     <div class="wrapper">
 
-                        <div class="banner-image" style="background-image: url(https://image.tmdb.org/t/p/w92{{poster_path}});"> </div>
+                        <div class="banner-image" style="background-image: url(https://image.tmdb.org/t/p/w500{{poster_path}});"> </div>
                         <br>
                         <p class="truncate">
                             {{title}}{{name}}
                             <br>
                             <span>{{date}}{{first_air_date}}</span>
                         </p>
-                        <form action="/delete/{{id}}" method="post">
-                            <button type="submit">Supprimer</button>
-                        </form>
                     </div>
                 </div>
             </div>

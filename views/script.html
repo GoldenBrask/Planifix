@@ -66,8 +66,8 @@
 
     document.addEventListener("DOMContentLoaded", () => {
         const sliders = document.querySelectorAll(".slider");
-        const arrowLefts = document.querySelectorAll(".arrow-left");
-        const arrowRights = document.querySelectorAll(".arrow-right");
+        const arrowLefts = document.querySelectorAll("#arrow-left");
+        const arrowRights = document.querySelectorAll("#arrow-right");
 
         arrowLefts.forEach((arrowLeft, index) => {
             arrowLeft.addEventListener("click", () => {
@@ -81,6 +81,7 @@
             });
         });
     });
+
 
 
     function updateDaysRemaining() {

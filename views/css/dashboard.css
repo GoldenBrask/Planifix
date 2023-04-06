@@ -310,17 +310,20 @@ button {
     display: flex;
 }
 
-#ribbon{
-    position:absolute;
+.ribbon {
+    position: absolute;
     padding: 0 0.5em;
-    font-size:1.5em;
+    font-size: 1.5em;
     line-height: 1.875em;
     color: #ffffff;
     border-radius: 2px;
-    box-shadow: -1px 2px 3px rgba(0,0,0,0.5);
+    box-shadow: -1px 2px 3px rgba(0, 0, 0, 0.5);
     width: 93%;
-    transform: translateY(-500%);
-  }
+    transform: translateY(-420%);
+}
 
-  
-  
+.list-ribbon {
+    transform: translateY(-500%);
+}
+
+
