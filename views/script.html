@@ -21,13 +21,16 @@
         }
     };
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const slider = document.querySelector('.slider');
-        slider.addEventListener('wheel', (e) => {
-            if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-                e.preventDefault();
-                slider.scrollLeft += e.deltaX;
-            }
+    document.addEventListener("DOMContentLoaded", () => {
+        const sliders = document.querySelectorAll(".slider");
+
+        sliders.forEach((slider) => {
+            slider.addEventListener("wheel", (e) => {
+                if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+                    e.preventDefault();
+                    slider.scrollLeft += e.deltaX;
+                }
+            });
         });
     });
 
@@ -62,23 +65,27 @@
     });
 
     document.addEventListener("DOMContentLoaded", () => {
-        const slider = document.querySelector(".slider");
-        const arrowLeft = document.getElementById('arrow-left')
-        const arrowRight = document.getElementById('arrow-right');
+        const sliders = document.querySelectorAll(".slider");
+        const arrowLefts = document.querySelectorAll(".arrow-left");
+        const arrowRights = document.querySelectorAll(".arrow-right");
 
-        arrowLeft.addEventListener("click", () => {
-            slider.scrollBy({ left: -300, behavior: "smooth" });
+        arrowLefts.forEach((arrowLeft, index) => {
+            arrowLeft.addEventListener("click", () => {
+                sliders[index].scrollBy({ left: -300, behavior: "smooth" });
+            });
         });
 
-        arrowRight.addEventListener("click", () => {
-            slider.scrollBy({ left: 300, behavior: "smooth" });
+        arrowRights.forEach((arrowRight, index) => {
+            arrowRight.addEventListener("click", () => {
+                sliders[index].scrollBy({ left: 300, behavior: "smooth" });
+            });
         });
     });
 
 
     function updateDaysRemaining() {
         const daysRemainingElements = document.querySelectorAll("p[data-release-date]");
-        
+
 
         daysRemainingElements.forEach((element) => {
             const releaseDateString = element.getAttribute("data-release-date");

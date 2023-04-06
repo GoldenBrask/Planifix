@@ -13,7 +13,7 @@
     <title>Votre espace</title>
 </head>
 
-<body class="body">
+<body class="body" >
     {{> navbar}}
     <div class="content-wrapper">
 
@@ -104,6 +104,11 @@
             {{/upcomingMovies}}
         </div>
 
+        <div class="arrow">
+            <img src="arrow.png" alt="Left arrow" id="arrow-left" width="32">
+            <img src="arrow.png" alt="Right arrow" id="arrow-right" width="32">
+        </div>
+
         <!-- Recommendations Slider -->
         <h2>Recommandations :</h2>
         <div class="slider">
@@ -132,6 +137,11 @@
                 <p>Pas de recommandations</p>
             </div>
             {{/recommendations}}
+        </div>
+
+        <div class="arrow">
+            <img src="arrow.png" alt="Left arrow" id="arrow-left" width="32">
+            <img src="arrow.png" alt="Right arrow" id="arrow-right" width="32">
         </div>
 
 
