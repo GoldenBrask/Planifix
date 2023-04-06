@@ -276,7 +276,7 @@ app.get('/search', async (req, res) => {
         return;
     }
 
-    const apiUrl = `https://api.themoviedb.org/3/search/multi?api_key=${api_key}&language=fr-FR&query=${encodeURIComponent(query)}`;
+    const apiUrl = `https://api.themoviedb.org/3/search/multi?api_key=${api_key}&language=fr-FR&query=${encodeURIComponent(query)}&region=FR`;
 
     try {
         const response = await axios.get(apiUrl);

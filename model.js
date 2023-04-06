@@ -134,7 +134,7 @@ function addUserItem(user_id, item_id) {
 
 
 exports.get_upcoming_movies = async function () {
-    const apiUrl = `https://api.themoviedb.org/3/movie/upcoming?api_key=${api_key}&language=fr-FR&page=1`;
+    const apiUrl = `https://api.themoviedb.org/3/movie/upcoming?api_key=${api_key}&language=fr-FR&page=1&region=FR`;
     try {
         const response = await axios.get(apiUrl);
         return response.data.results;
@@ -145,7 +145,7 @@ exports.get_upcoming_movies = async function () {
 }
 
 exports.get_recommendations = async function(tmdb_id)  {
-    const apiUrl = `https://api.themoviedb.org/3/movie/${tmdb_id}/recommendations?api_key=${api_key}&language=fr-FR`;
+    const apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${api_key}&language=fr-FR&page=1&region=FR`;
     try {
         const response = await axios.get(apiUrl);
         return response.data.results;
