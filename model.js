@@ -92,6 +92,10 @@ exports.update_item = function (item_id, item) {
 
 exports.delete_item = function (user_id, item_id) {
     const info = db.prepare('DELETE FROM user_item WHERE user_id = ? AND item_id = ?').run(user_id, item_id);
+    const used = db.prepare('SELECT * FROM user_item WHERE item_id = ?').run(item_id)
+    if(used == undefined){
+        const delete_item = db.prepare('DELETE FROM item WHERE id = ?').run(item_id);
+    }
     return info.changes == 1;
 
 }
