@@ -4,16 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="search.css">
+    <link rel="stylesheet" href="navbar.css">
+
     <title>Recherche</title>
 </head>
 
 <body>
+
+    {{> navbar}}
     <h1>Résultats de la recherche</h1>
     <ul>
         {{#results}}
-        <li>
-            <img src="https://image.tmdb.org/t/p/w92{{poster_path}}" alt="{{title}}">
+        <li data-genre-ids="{{genre_ids}}">
+
+            <div class="result">
+                <div class="result-poster">
+                    <img src="https://image.tmdb.org/t/p/w92{{poster_path}}" alt="{{title}}" height="100px">
+                </div>
+            </div>
+
+            
             <h3>{{title}}{{name}}</h3>
             <p>Date de sortie: {{release_date}}{{first_air_date}}</p>
 
@@ -23,34 +34,30 @@
                 <div class="modal-content">
                     <span class="close">&times;</span>
                     <form id="modal-form" action="/add" method="post">
-
                         <input type="hidden" id="tmdb_id" name="tmdb_id" value="{{id}}">
-
-                        <label for="title">Titre :</label>
-                        <input type="text" id="title" name="title" value="{{title}}{{name}}" required>
-
-                        <label for="date">Date :</label>
-                        <input type="text" id="date" name="date" value="{{release_date}}{{first_air_date}}" required>
-
-                        <label for="poster">Affiche :</label>
-                        <input type="text" id="poster" name="poster"
-                            value="https://image.tmdb.org/t/p/original{{poster_path}}" required>
-
-                        <label for="type">Type :</label>
-                        <select id="type" name="type" required>
-                            <option value="films">Films</option>
-                            <option value="series">Séries</option>
-                            <option value="manga">Manga</option>
-                            <option value="evenement">Événement</option>
-                        </select>
+                        <input type="hidden" id="title" name="title" value="{{title}}{{name}}">
+                        <input type="hidden" id="date" name="date" value="{{release_date}}{{first_air_date}}">
+                        <input type="hidden" id="poster" name="poster"
+                            value="https://image.tmdb.org/t/p/original{{poster_path}}">
+                        <input type="hidden" id="type" name="type" value="{{media_type}}">
 
 
-                        <button type="submit">Envoyer</button>
+                        <div class="info-container">
+                            <div class="textside">
+                                <p>Titre : {{title}}{{name}}</p>
+                                <p>Date : {{release_date}}{{first_air_date}}</p>
+                                <p>Type : {{media_type}}</p>
+                                <!-- Mettez à jour ce texte en fonction du type d'élément recherché -->
+                            </div>
+                            <div class="posterside">
+                                <img src="https://image.tmdb.org/t/p/original{{poster_path}}" alt="{{title}}"
+                                    style="width: 100px;">
+                            </div>
+                        </div>
+                        <button type="submit">Confirmer</button>
                     </form>
                 </div>
             </div>
-
-
         </li>
         {{/results}}
     </ul>
@@ -66,18 +73,38 @@
                 // Récupérer la fenêtre modale correspondante
                 const editModal = button.nextElementSibling;
 
+                // Récupérer la liste des genre_ids
+                const genreIds = button.parentElement.dataset.genreIds.split(',');
+
+                // Récupérer et mettre à jour la valeur du type en fonction des genre_ids
+                const typeInput = editModal.querySelector("#type");
+                const typeDisplay = editModal.querySelector(".info-container .textside p:nth-child(3)");
+
+
+                if (typeInput.value === 'tv' && genreIds.includes('16')) {
+                    typeInput.value = 'Anime';
+                    typeDisplay.textContent = 'Type : Anime';
+                } else if (typeInput.value === 'movie') {
+                    typeInput.value = 'Film';
+                    typeDisplay.textContent = 'Type : Film';
+                } else {
+                    typeInput.value = 'Série';
+                    typeDisplay.textContent = 'Type : Série';
+                }
+
+
                 // Ouvrir la fenêtre modale
                 editModal.style.display = "block";
 
                 // Récupérer le bouton de fermeture (x) de cette fenêtre modale
                 const closeButton = editModal.querySelector(".close");
 
-                // Fermer la fenêtre modale lors du clic sur le bouton de fermeture (x)
                 closeButton.onclick = function () {
                     editModal.style.display = "none";
                 };
             };
         });
+
 
         // Fermer la fenêtre modale lors du clic en dehors du contenu de la fenêtre modale
         window.onclick = function (event) {
@@ -87,6 +114,8 @@
         };
 
     </script>
+
+    {{> script}}
 </body>
 
 </html>

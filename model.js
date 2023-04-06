@@ -1,6 +1,8 @@
 const Sqlite = require('better-sqlite3');
 const db = new Sqlite('db.sqlite');
 const bcrypt = require('bcrypt');
+const axios = require('axios');
+const api_key = 'e49d6088a7c6032be073e1e136e761fa';
 
 
 //////////////////////////////////////////////////CONNEXION ET INSCRIPTION///////////////////////////////////////////////////
@@ -60,30 +62,41 @@ function userExist(email) {
 
 ////////////////////////GESTION DES DONNéES////////////////////////////////////////////////
 exports.add_item = function (tmdb_id, title, date, poster, type, user_id) {
-    const result = db.prepare('INSERT INTO item (tmdb_id, title, date, poster, type) VALUES (?, ?, ?, ?, ?)').run(tmdb_id, title, date, poster, type);
-    if (result.changes == 1) {
-        const item_id = result.lastInsertRowid;
-        const userItemAdded = addUserItem(user_id, item_id);
-        return userItemAdded ? item_id : null;
+
+    const existingItem = db.prepare('SELECT * FROM item WHERE tmdb_id = ?').get(tmdb_id);
+
+    let item_id;
+
+    if (existingItem) {
+        item_id = existingItem.id;
     } else {
-        return -1;
+        const result = db.prepare('INSERT INTO item (tmdb_id, title, date, poster, type) VALUES (?, ?, ?, ?, ?)').run(tmdb_id, title, date, poster, type);
+
+        if (result.changes !== 1) {
+            return -1;
+        }
+
+        item_id = result.lastInsertRowid;
     }
+    const userItemAdded = addUserItem(user_id, item_id);
+    return userItemAdded ? item_id : null;
 };
 
-exports.update_item = function (item_id,item) {
+
+exports.update_item = function (item_id, item) {
     const sql = `UPDATE item SET tmdb_id = ?, title = ?, date = ?, poster = ?, type = ? WHERE id = ?`;
     const result = db.prepare(sql).run(item.tmdb_id, item.title, item.date, item.poster, item.type, item_id);
     return result.changes == 1;
 };
 
 
-exports.delete_item = function(user_id, item_id) {
+exports.delete_item = function (user_id, item_id) {
     const info = db.prepare('DELETE FROM user_item WHERE user_id = ? AND item_id = ?').run(user_id, item_id);
     return info.changes == 1;
 
 }
 
-exports.get_item = function(item_id) {
+exports.get_item = function (item_id) {
     const item = db.prepare('SELECT * FROM item WHERE id = ?').get(item_id);
     return item
 }
@@ -91,7 +104,7 @@ exports.get_item = function(item_id) {
 
 exports.get_user_items = function (user_id) {
     const items = db.prepare('SELECT item.* FROM item JOIN user_item ON item.id = user_item.item_id WHERE user_item.user_id = ?').all(user_id);
-    return {items : items}
+    return { items: items }
 };
 
 
@@ -107,9 +120,42 @@ exports.get_user_data = function (user_id) {
 
 
 function addUserItem(user_id, item_id) {
-    const result = db.prepare('INSERT INTO user_item (user_id, item_id) VALUES (?, ?)').run(user_id, item_id);
-    return result.changes === 1;
-};
+
+    const existingRelation = db.prepare('SELECT * FROM user_item WHERE user_id = ? AND item_id = ?').get(user_id, item_id);
+
+    if (existingRelation) {
+        return false;
+    } else {
+        const result = db.prepare('INSERT INTO user_item (user_id, item_id) VALUES (?, ?)').run(user_id, item_id);
+        return result.changes === 1;
+    }
+}
+
+
+
+exports.get_upcoming_movies = async function () {
+    const apiUrl = `https://api.themoviedb.org/3/movie/upcoming?api_key=${api_key}&language=fr-FR&page=1`;
+    try {
+        const response = await axios.get(apiUrl);
+        return response.data.results;
+    } catch (err) {
+        console.error('Error fetching data from TMDB API:', err);
+        return [];
+    }
+}
+
+exports.get_recommendations = async function(tmdb_id)  {
+    const apiUrl = `https://api.themoviedb.org/3/movie/${tmdb_id}/recommendations?api_key=${api_key}&language=fr-FR`;
+    try {
+        const response = await axios.get(apiUrl);
+        return response.data.results;
+    } catch (err) {
+        console.error('Error fetching data from TMDB API:', err);
+        return [];
+    }
+}
+
+
 
 
 

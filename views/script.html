@@ -63,20 +63,43 @@
 
     document.addEventListener("DOMContentLoaded", () => {
         const slider = document.querySelector(".slider");
-        const arrowLeft = document.querySelector('.arrow-left');
-        const arrowRight = document.querySelector('.arrow-right');
+        const arrowLeft = document.getElementById('arrow-left')
+        const arrowRight = document.getElementById('arrow-right');
 
         arrowLeft.addEventListener("click", () => {
             slider.scrollBy({ left: -300, behavior: "smooth" });
         });
 
         arrowRight.addEventListener("click", () => {
-            slider.scrollBy({ left: 300});
+            slider.scrollBy({ left: 300, behavior: "smooth" });
         });
     });
 
 
+    function updateDaysRemaining() {
+        const daysRemainingElements = document.querySelectorAll("p[data-release-date]");
+        
 
+        daysRemainingElements.forEach((element) => {
+            const releaseDateString = element.getAttribute("data-release-date");
+            const releaseDate = new Date(releaseDateString);
+
+            const currentDate = new Date();
+            const timeDifference = releaseDate - currentDate;
+            const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+            if (daysRemaining > 0) {
+                element.textContent = `Sort dans ${daysRemaining} jours`;
+                element.style.backgroundColor = '#e4063a';
+            } else {
+                element.textContent = "Sorti";
+                element.style.backgroundColor = '#57c559';
+            }
+        });
+    }
+
+
+    updateDaysRemaining();
 
 
 </script>
