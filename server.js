@@ -123,7 +123,7 @@ app.get('/dashboard', async (req, res) => {
 
     const userItems = model.get_user_items(res.locals.id);
     const upcomingMovies = await model.get_upcoming_movies();
-    console.log(upcomingMovies)
+
 
     const recommendations = await model.get_recommendations("900667");
     
@@ -146,17 +146,6 @@ app.post('/add', async (req, res) => {
 
     const user_id = res.locals.id;
     const item_id = model.add_item(tmdb_id, title, date, poster, type,user_id);
-
-    if (req.file) {
-        try {
-            const result = await cloudinary.uploader.upload(req.file.path);
-            item.poster = result.secure_url;
-        } catch (err) {
-            console.error('Error uploading image to Cloudinary:', err);
-            res.status(500).send('Erreur lors de l\'envoi de l\'image');
-            return;
-        }
-    }
 
 
     if (item_id > 0) {
@@ -281,10 +270,6 @@ function update_item_from_request(item, req) {
 
 
 app.get('/search', async (req, res) => {
-    if (!res.locals.authenticated) {
-        res.redirect('/login');
-        return;
-    }
 
     const query = req.query.query;
 
@@ -298,8 +283,6 @@ app.get('/search', async (req, res) => {
     try {
         const response = await axios.get(apiUrl);
         const results = response.data.results;
-
-        console.log(results)
 
         res.render('search', { results: results });
     } catch (err) {
