@@ -93,7 +93,7 @@ exports.update_item = function (item_id, item) {
 exports.delete_item = function (user_id, item_id) {
     const info = db.prepare('DELETE FROM user_item WHERE user_id = ? AND item_id = ?').run(user_id, item_id);
     const used = db.prepare('SELECT * FROM user_item WHERE item_id = ?').run(item_id)
-    if(used == undefined){
+    if (Object.keys(used).length === 0) {
         const delete_item = db.prepare('DELETE FROM item WHERE id = ?').run(item_id);
     }
     return info.changes == 1;
@@ -148,7 +148,7 @@ exports.get_upcoming_movies = async function () {
     }
 }
 
-exports.get_recommendations = async function(tmdb_id)  {
+exports.get_recommendations = async function (tmdb_id) {
     const apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${api_key}&language=fr-FR&page=1&region=FR`;
     try {
         const response = await axios.get(apiUrl);
