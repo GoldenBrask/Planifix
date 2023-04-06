@@ -8,66 +8,42 @@
     <link rel="stylesheet" href="navbar.css">
     <link rel="stylesheet" href="user_space.css">
 
-    <title>Paramètres de profil</title>
+    <title>Informations personnelles</title>
 </head>
 
 <body>
-    <div class="content-wrapper">
-
-        <h2>PARAMÉTRES DE PROFIL</h2>
-
-
-        <div class="container">
-
-            <form action="" method="'post">
-                <div class="formgroup">
-                    <label for="username">Nom d'utilisateur</label>
-                    <input type="text" name="username" id="username" value="{{username}}">
-                </div>
-                <div class="formgroup">
-                    <label for="email">Email</label>
-                    <input type="email" name="email" id="email" value="{{email}}">
-                </div>
-                <div class="formgroup">
-                    <label for="password">Mot de passe</label>
-                    <input type="password" name="password" id="password" value="{{password}}">
-                </div>
-            </form>
-
-
-            <a href="/dashboard"><button id="returnButton">Retour</button></a>
-
-        </div>
-
-
-
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     {{> navbar}}
 
+    <h1>Informations personnelles</h1>
+
+    <div class="container">
+        <table>
+            <tbody>
+                <tr>
+                    <td class="left">Nom d'utilisateur</td>
+                    <td class="right">{{username}}</td>
+                    <td><a href="/change_username"><img src="edit_button.png" alt= "Button change" width="45px"></a></td>
+                </tr>
+                <tr>
+                    <td class="left">Email</td>
+                    <td class="right">{{email}}</td>
+                    <td><a href="/change_username"><img src="edit_button.png" alt= "Button change" width="45px"></a></td>
+                </tr>
+                <tr>
+                    <td class="left">Mot de passe</td>
+                    <td class="right">*******</td>
+                    <td><a href="/change_username"><img src="edit_button.png" alt= "Button change" width="45px"></a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+       
 
 
-    
-    <script src="script.js"></script>
+
+
 </body>
 
 </html>

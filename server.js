@@ -199,6 +199,22 @@ app.post('/user_space', (req, res) => {
     res.render('user_space',{email : user_data});
 });
 
+
+
+
+// Route POST "/user_space"
+
+app.post('/user_space', (req, res) => {
+    if (!res.locals.authenticated) {
+        res.redirect('/login');
+        return;
+    }
+    const id = res.locals.id;
+    const user_data = get_user_data(id);
+    res.render('user_space',{email : user_data});
+});
+
+
 // Route GET "/anime"
 app.get('/anime', (req, res) => {
     if (!res.locals.authenticated) {
@@ -218,6 +234,7 @@ app.post('/edit/:id', (req, res) => {
     }
     const item_id = req.params.id;
     const item = model.get_item(item_id);
+
 
     // Mise à jour des informations de l'item avec les données du formulaire
     update_item_from_request(item, req);
