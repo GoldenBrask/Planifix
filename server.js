@@ -274,5 +274,21 @@ app.get('/search', async (req, res) => {
     }
 });
 
+app.get('/read/:id', async (req, res) => {
+    const apiUrl = `https://api.themoviedb.org/3/movie/${req.params.id}?api_key=${api_key}&language=fr-FR&region=FR`;
+
+    try {
+        const response = await axios.get(apiUrl);
+        const movie = response.data;
+        console.log(movie)
+
+        res.render('read', { movie: movie });
+    } catch (err) {
+        console.error('Error fetching data from TMDB API:', err);
+        res.status(500).send('Erreur lors de la récupération des données de l\'API TMDB');
+    }
+});
+
+
 
 app.listen(3000, () => console.log('listening on http://localhost:3000'));
