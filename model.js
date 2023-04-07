@@ -150,7 +150,7 @@ exports.get_upcoming_movies = async function () {
     }
 }
 
-exports.get_recommendations = async function (tmdb_id) {
+exports.get_popular = async function (tmdb_id) {
     const apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${api_key}&language=fr-FR&page=1&region=FR`;
     try {
         const response = await axios.get(apiUrl);

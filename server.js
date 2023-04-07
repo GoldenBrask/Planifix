@@ -125,13 +125,13 @@ app.get('/dashboard', async (req, res) => {
     const upcomingMovies = await model.get_upcoming_movies();
 
 
-    const recommendations = await model.get_recommendations("900667");
+    const popular = await model.get_popular("900667");
     
 
     res.render('dashboard', {
         items: userItems.items,
         upcomingMovies,
-        recommendations,
+        popular,
     });
 });
 
@@ -165,7 +165,8 @@ app.get('/edit/:id', (req, res) => {
     const item = model.get_item(req.params.id)
     res.render('edit', item);
 });
-// Route GET "/user_space"
+
+/*ESPACE UTILISATEUR**/
 app.get('/user_space', (req, res) => {
     if (!res.locals.authenticated) {
         res.redirect('/login');
@@ -176,33 +177,75 @@ app.get('/user_space', (req, res) => {
     res.render('user_space',{email : user_data});
 });
 
-// Route POST "/user_space"
+/*MODIFIER PROFIL**/
 
-app.post('/user_space', (req, res) => {
+// Route GET "/change_username"
+app.get('/change_username', (req, res) => {
+    if (!res.locals.authenticated) {
+        res.redirect('/login');
+        return;
+    }
+    const user_id = res.locals.id;
+    const user_data = model.get_user_data(user_id);
+    res.render('change_username',{email : user_data});
+});
+
+// Route POST "change_username"
+app.post('change_username', (req, res) => {
     if (!res.locals.authenticated) {
         res.redirect('/login');
         return;
     }
     const id = res.locals.id;
     const user_data = get_user_data(id);
-    res.render('user_space',{email : user_data});
+    res.render('change_username',{email : user_data});
 });
 
+// Route GET "/change_email"
+app.get('/change_email', (req, res) => {
+    if (!res.locals.authenticated) {
+        res.redirect('/login');
+        return;
+    }
+    const user_id = res.locals.id;
+    const user_data = model.get_user_data(user_id);
+    res.render('change_email',{email : user_data});
+});
 
+// Route POST "/change_email"
 
-
-// Route POST "/user_space"
-
-app.post('/user_space', (req, res) => {
+app.post('/change_email', (req, res) => {
     if (!res.locals.authenticated) {
         res.redirect('/login');
         return;
     }
     const id = res.locals.id;
     const user_data = get_user_data(id);
-    res.render('user_space',{email : user_data});
+    res.render('change_email',{email : user_data});
 });
 
+// Route GET "/change_password"
+app.get('/change_password', (req, res) => {
+    if (!res.locals.authenticated) {
+        res.redirect('/login');
+        return;
+    }
+    const user_id = res.locals.id;
+    const user_data = model.get_user_data(user_id);
+    res.render('change_password',{email : user_data});
+});
+
+// Route POST "/user_space"
+
+app.post('/change_password', (req, res) => {
+    if (!res.locals.authenticated) {
+        res.redirect('/login');
+        return;
+    }
+    const id = res.locals.id;
+    const user_data = get_user_data(id);
+    res.render('change_password',{email : user_data});
+});
 
 // Route GET "/anime"
 app.get('/anime', (req, res) => {

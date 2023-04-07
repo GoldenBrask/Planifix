@@ -107,9 +107,9 @@
         </div>
 
         <!-- Recommendations Slider -->
-        <h2>Recommandations :</h2>
-        <div class="slider ">
-            {{#recommendations}}
+        <h2>Populaires :</h2>
+        <div class="slider">
+            {{#popular}}
             <div class="slide">
                 <div class="container">
                     <p data-release-date="{{release_date}}" class="ribbon"></p>
@@ -125,12 +125,12 @@
                     </div>
                 </div>
             </div>
-            {{/recommendations}}
-            {{^recommendations}}
+            {{/popular}}
+            {{^popular}}
             <div class="slide">
-                <p>Pas de recommandations</p>
+                <p>Pas de recommandations populaires</p>
             </div>
-            {{/recommendations}}
+            {{/popular}}
         </div>
 
         <div class="arrow">
