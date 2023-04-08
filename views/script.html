@@ -82,6 +82,38 @@
         });
     });
 
+    document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const deleted = urlParams.get("deleted");
+        const added = urlParams.get("added")
+
+        const notification = document.getElementById("notification");
+        const notifContainer = document.getElementById("notifContainer");
+
+
+        if (deleted) {
+            setTimeout(() => {
+                notification.textContent = "Vous avez supprimé : " + decodeURIComponent(deleted);
+                notifContainer.classList.add("show");
+            }, 200);
+
+
+            setTimeout(() => {
+                notifContainer.classList.remove("show");
+            }, 2000);
+        }
+        if (added) {
+            setTimeout(() => {
+                notification.textContent = "Vous avez ajouté : " + decodeURIComponent(added);
+                notifContainer.classList.add("show");
+            }, 200);
+
+            setTimeout(() => {
+                notifContainer.classList.remove("show");
+            }, 2000);
+        }
+    });
+
 
 
     function updateDaysRemaining() {

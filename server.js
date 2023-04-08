@@ -2,7 +2,7 @@ var express = require('express');
 var mustache = require('mustache-express');
 const cookieSession = require('cookie-session');
 const crypto = require('crypto');
-const axios = require('axios'); 
+const axios = require('axios');
 var model = require('./model');
 var app = express();
 app.engine('html', mustache());
@@ -58,7 +58,7 @@ app.get('/', (req, res) => {
     if (!res.locals.authenticated) {
         res.render('index');
     } else {
-    
+
         res.redirect('/dashboard');
     }
 });
@@ -123,10 +123,9 @@ app.get('/dashboard', async (req, res) => {
 
     const userItems = model.get_user_items(res.locals.id);
     const upcomingMovies = await model.get_upcoming_movies();
+    const popular = await model.get_popular();
+    console.log(popular)
 
-
-    const popular = await model.get_popular("900667");
-    
 
     res.render('dashboard', {
         items: userItems.items,
@@ -142,29 +141,21 @@ app.post('/add', async (req, res) => {
         res.redirect('/login');
         return;
     }
-    const { tmdb_id, title, date, poster, type} = req.body;
+    const { tmdb_id, title, date, poster, type } = req.body;
 
     const user_id = res.locals.id;
-    const item_id = model.add_item(tmdb_id, title, date, poster, type,user_id);
+    const item_id = model.add_item(tmdb_id, title, date, poster, type, user_id);
 
+    const item_name = model.get_item(item_id).title;
 
     if (item_id > 0) {
-        res.redirect('/dashboard');
+        res.redirect(`/dashboard?added=${item_name}`);
     } else {
-        res.status(500).send('Erreur lors de l\'ajout de l\'élément');
+        res.redirect('/dashboard');
     }
 });
 
-// Route GET "/edit/:id"
-app.get('/edit/:id', (req, res) => {
-    if (!res.locals.authenticated) {
-        res.redirect('/login');
-        return;
-    }
 
-    const item = model.get_item(req.params.id)
-    res.render('edit', item);
-});
 
 /*ESPACE UTILISATEUR**/
 app.get('/user_space', (req, res) => {
@@ -174,7 +165,7 @@ app.get('/user_space', (req, res) => {
     }
     const user_id = res.locals.id;
     const user_data = model.get_user_data(user_id);
-    res.render('user_space',{email : user_data});
+    res.render('user_space', { email: user_data });
 });
 
 /*MODIFIER PROFIL**/
@@ -187,7 +178,7 @@ app.get('/change_username', (req, res) => {
     }
     const user_id = res.locals.id;
     const user_data = model.get_user_data(user_id);
-    res.render('change_username',{email : user_data});
+    res.render('change_username', { email: user_data });
 });
 
 // Route POST "change_username"
@@ -198,7 +189,7 @@ app.post('change_username', (req, res) => {
     }
     const id = res.locals.id;
     const user_data = get_user_data(id);
-    res.render('change_username',{email : user_data});
+    res.render('change_username', { email: user_data });
 });
 
 // Route GET "/change_email"
@@ -209,7 +200,7 @@ app.get('/change_email', (req, res) => {
     }
     const user_id = res.locals.id;
     const user_data = model.get_user_data(user_id);
-    res.render('change_email',{email : user_data});
+    res.render('change_email', { email: user_data });
 });
 
 // Route POST "/change_email"
@@ -221,7 +212,7 @@ app.post('/change_email', (req, res) => {
     }
     const id = res.locals.id;
     const user_data = get_user_data(id);
-    res.render('change_email',{email : user_data});
+    res.render('change_email', { email: user_data });
 });
 
 // Route GET "/change_password"
@@ -232,7 +223,7 @@ app.get('/change_password', (req, res) => {
     }
     const user_id = res.locals.id;
     const user_data = model.get_user_data(user_id);
-    res.render('change_password',{email : user_data});
+    res.render('change_password', { email: user_data });
 });
 
 // Route POST "/user_space"
@@ -244,7 +235,7 @@ app.post('/change_password', (req, res) => {
     }
     const id = res.locals.id;
     const user_data = get_user_data(id);
-    res.render('change_password',{email : user_data});
+    res.render('change_password', { email: user_data });
 });
 
 // Route GET "/anime"
@@ -257,30 +248,6 @@ app.get('/anime', (req, res) => {
 });
 
 
-// Route POST "/edit/:id"
-app.post('/edit/:id', (req, res) => {
-
-    if (!res.locals.authenticated) {
-        res.redirect('/login');
-        return;
-    }
-    const item_id = req.params.id;
-    const item = model.get_item(item_id);
-
-
-    // Mise à jour des informations de l'item avec les données du formulaire
-    update_item_from_request(item, req);
-
-    const success = model.update_item(item_id, item);
-
-    if (success) {
-        res.redirect('/dashboard');
-    } else {
-        res.status(500).send('Erreur lors de la mise à jour de l\'élément');
-    }
-    res.redirect('/dashboard');
-});
-
 
 // Route POST "/delete/:id"
 app.post('/delete/:id', (req, res) => {
@@ -289,27 +256,16 @@ app.post('/delete/:id', (req, res) => {
         return;
     }
     const item_id = req.params.id;
-
+    const item_name = model.get_item(item_id).title;
     const success = model.delete_item(res.locals.id, item_id);
 
-
     if (success) {
-        res.redirect('/dashboard');
+        res.redirect(`/dashboard?deleted=${item_name}`);
     } else {
-        res.status(500).send('Erreur lors de la suppression de l\'élément');
+        res.redirect('/dashboard');
     }
-    res.redirect('/dashboard');
+
 });
-
-
-
-function update_item_from_request(item, req) {
-    item.tmdb_id = req.body.tmdb_id;
-    item.title = req.body.title;
-    item.date = req.body.date;
-    item.poster = req.body.poster;
-    item.type = req.body.type;
-}
 
 
 app.get('/search', async (req, res) => {
@@ -326,6 +282,7 @@ app.get('/search', async (req, res) => {
     try {
         const response = await axios.get(apiUrl);
         const results = response.data.results;
+        console.log(results)
 
         res.render('search', { results: results });
     } catch (err) {
@@ -335,11 +292,23 @@ app.get('/search', async (req, res) => {
 });
 
 app.get('/read/:id', async (req, res) => {
-    const apiUrl = `https://api.themoviedb.org/3/movie/${req.params.id}?api_key=${api_key}&language=fr-FR&region=FR`;
+    let apiUrl;
+
+    if (req.query.type === 'movie' || req.query.type === 'Film') {
+        apiUrl = `https://api.themoviedb.org/3/movie/${req.params.id}?api_key=${api_key}&language=fr-FR&region=FR`;
+    } else if (req.query.type === 'tv' || req.query.type === 'Série' || req.query.type === 'Anime') {
+        apiUrl = `https://api.themoviedb.org/3/tv/${req.params.id}?api_key=${api_key}&language=fr-FR&region=FR`;
+    } else {
+        // Ajoutez une réponse d'erreur si le type n'est pas correct
+        res.status(400).send('Type de contenu non pris en charge. Veuillez spécifier "movie", "Film", "tv", "Série" ou "Anime" comme type.');
+        return;
+    }
 
     try {
         const response = await axios.get(apiUrl);
         const movie = response.data;
+        movie.release_date = req.query.date;
+
         console.log(movie)
 
         res.render('read', { movie: movie });
@@ -348,6 +317,7 @@ app.get('/read/:id', async (req, res) => {
         res.status(500).send('Erreur lors de la récupération des données de l\'API TMDB');
     }
 });
+
 
 
 

@@ -143,23 +143,50 @@ exports.get_upcoming_movies = async function () {
     const apiUrl = `https://api.themoviedb.org/3/movie/upcoming?api_key=${api_key}&language=fr-FR&page=1&region=FR`;
     try {
         const response = await axios.get(apiUrl);
-        return response.data.results;
+        const movies = response.data.results;
+
+        // Trier les films par date de sortie
+        movies.sort((a, b) => {
+            if (a.release_date < b.release_date) {
+                return -1;
+            } else if (a.release_date > b.release_date) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+
+        return movies;
     } catch (err) {
         console.error('Error fetching data from TMDB API:', err);
         return [];
     }
-}
+};
 
-exports.get_popular = async function (tmdb_id) {
+
+exports.get_popular = async function () {
     const apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${api_key}&language=fr-FR&page=1&region=FR`;
     try {
         const response = await axios.get(apiUrl);
-        return response.data.results;
+        const movies = response.data.results;
+
+        // Trie les films par date de sortie
+        movies.sort((a, b) => {
+            if (a.release_date > b.release_date) {
+                return -1;
+            } else if (a.release_date < b.release_date) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+
+        return movies;
     } catch (err) {
         console.error('Error fetching data from TMDB API:', err);
         return [];
     }
-}
+};
 
 
 

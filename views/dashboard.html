@@ -13,7 +13,7 @@
     <title>Votre espace</title>
 </head>
 
-<body class="body" >
+<body class="body">
     {{> navbar}}
     <div class="content-wrapper">
 
@@ -23,7 +23,7 @@
 
             <div class="searchOption">
                 <div class="left">
-                    <p class="">PAR RECHERCHE {{addedtitle}}</p>
+                    <p class="">PAR RECHERCHE</p>
                     <form class="searchbar" action="/search" method="GET" class="search" role="search">
                         <input id="search" name="query" type="search" placeholder="Search..." autofocus required />
                         <button type="submit" id="searchButton">Go</button>
@@ -43,13 +43,28 @@
 
         <div class="slider">
 
+            <div id="notifContainer">
+                <div class="notification" id="notification">
+                    Vous avez supprimer : {{deleted}}
+                </div>
+
+            </div>
+
             {{#items}}
             <div class="slide">
                 <div class="container">
                     <p data-release-date="{{date}}" class="ribbon list-ribbon"></p>
                     <div class="wrapper">
 
+                        {{#tmdb_id}}
+                        <a href="/read/{{tmdb_id}}?date={{date}}&type={{type}}">
+                            <div class="banner-image" style="background-image: url({{poster}});"> </div>
+                        </a>
+                        {{/tmdb_id}}
+                        {{^tmdb_id}}
                         <div class="banner-image" style="background-image: url({{poster}});"> </div>
+                        {{/tmdb_id}}
+
                         <br>
                         <p class="truncate">
                             {{title}}
@@ -57,7 +72,7 @@
                             <span>{{date}}</span>
                         </p>
                         <form action="/delete/{{id}}" method="post">
-                            <button type="submit">Supprimer</button>
+                            <button type="submit" class="deleteButton">Supprimer</button>
                         </form>
                     </div>
                 </div>
@@ -82,8 +97,11 @@
                 <div class="container">
                     <p data-release-date="{{release_date}}" class="ribbon"></p>
                     <div class="wrapper">
+                        <a href="/read/{{id}}?date={{release_date}}&type=movie">
+                            <div class="banner-image"
+                                style="background-image: url(https://image.tmdb.org/t/p/w500{{poster_path}});"> </div>
+                        </a>
 
-                        <div class="banner-image" style="background-image: url(https://image.tmdb.org/t/p/w500{{poster_path}});"> </div>
                         <br>
                         <p class="truncate">
                             {{title}}{{name}}
@@ -115,7 +133,10 @@
                     <p data-release-date="{{release_date}}" class="ribbon"></p>
                     <div class="wrapper">
 
-                        <div class="banner-image" style="background-image: url(https://image.tmdb.org/t/p/w500{{poster_path}});"> </div>
+                        <a href="/read/{{id}}?date={{release_date}}&type=movie">
+                            <div class="banner-image"
+                                style="background-image: url(https://image.tmdb.org/t/p/w500{{poster_path}});"> </div>
+                        </a>
                         <br>
                         <p class="truncate">
                             {{title}}{{name}}

@@ -17,35 +17,23 @@
 
 
 
-    <ul>
-        <div class="container">
-            {{#results}}
+    <ul class="test">
 
-            <li data-genre-ids="{{genre_ids}}" data-backdrop-path="{{backdrop_path}}" class="result-item">
-                <div class="blur-effect">
-                </div>
-                <div class="result">
-                    <div class="result-poster">
-                        <img src="https://image.tmdb.org/t/p/w500{{poster_path}}" alt="{{title}}">
-                    </div>
-                </div>
+        {{#results}}
+        <li class="resultat">
+            <a href="/read/{{id}}?date={{release_date}}{{first_air_date}}&type={{media_type}}"><img src="https://image.tmdb.org/t/p/w500{{poster_path}}" alt="{{title}}"></a>
 
-                <div class="itemInfo">
-                    <p class="title" data-title="{{title}}{{name}}">{{title}}{{name}}</p>
-                    <p>Date de sortie: {{release_date}}{{first_air_date}}</p>
+            <div class="itemInfo">
+                <a href="/read/{{id}}?date={{release_date}}{{first_air_date}}" class="title">{{title}}{{name}}</a>
+                <p>{{#release_date}}Date de sortie: {{release_date}}{{/release_date}}{{#first_air_date}}Première diffusion : {{first_air_date}}{{/first_air_date}}</p>
+            </div>
+            
 
-                    <form id="modal-form" action="/add" method="post">
-                        <input type="hidden" id="tmdb_id" name="tmdb_id" value="{{id}}">
-                        <input type="hidden" id="title" name="title" value="{{title}}{{name}}">
-                        <input type="hidden" id="date" name="date" value="{{release_date}}{{first_air_date}}">
-                        <input type="hidden" id="poster" name="poster"
-                            value="https://image.tmdb.org/t/p/original{{poster_path}}">
-                        <input type="hidden" id="type" name="type" value="{{media_type}}">
-                        <button type="submit">Ajouter</button>
-                    </form>
-                </div>
-            </li>
-            {{/results}}
+            <button type="submit">Ajouter</button>
+        </li>
+        {{/results}}
+
+        
         </div>
     </ul>
 
