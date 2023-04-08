@@ -213,10 +213,7 @@ h2 {
     content: ''
 }
 
-.right button:hover {
-    background-color: #57bd84;
-    transition: .5s;
-}
+
 
 .sticky {
     background: #000000;
@@ -294,6 +291,10 @@ h2 {
 }
 
 button {
+    cursor: pointer;
+}
+
+#addButton {
     width: 100%;
     background-color: #ffffff;
     color: #080710;
@@ -301,9 +302,13 @@ button {
     font-size: 18px;
     font-weight: 600;
     border-radius: 5px;
-    cursor: pointer;
     outline: none;
     border: none;
+    transition: all .3s;
+}
+
+#addButton:hover {
+    background-color: #57bd84;
 }
 
 .info-container {
@@ -326,4 +331,28 @@ button {
     transform: translateY(-500%);
 }
 
+#notifContainer {
+    position: fixed;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+    bottom: -8rem;
+    transition: all .4s;
+}
 
+.notification {
+    background-color: #57bd84;
+    color: #ffffff;
+    padding: 1.25rem 1.25rem;
+    font-size: 1.3rem;
+    border-radius: 5px;
+}
+
+#notifContainer.show {
+    bottom: 2rem;
+}
+
+.banner-image a{
+    cursor: pointer;
+}
