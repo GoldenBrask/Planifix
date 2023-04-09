@@ -356,3 +356,9 @@ button {
 .banner-image a{
     cursor: pointer;
 }
+
+@media screen and (max-width : 780px) {
+    .searchOption{
+        flex-direction: column;
+    }
+}

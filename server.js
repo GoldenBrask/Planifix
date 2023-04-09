@@ -295,9 +295,9 @@ app.get('/read/:id', async (req, res) => {
     let apiUrl;
 
     if (req.query.type === 'movie' || req.query.type === 'Film') {
-        apiUrl = `https://api.themoviedb.org/3/movie/${req.params.id}?api_key=${api_key}&language=fr-FR&region=FR`;
+        apiUrl = `https://api.themoviedb.org/3/movie/${req.params.id}?api_key=${api_key}&language=fr-FR&region=FR&append_to_response=watch/providers`;
     } else if (req.query.type === 'tv' || req.query.type === 'Série' || req.query.type === 'Anime') {
-        apiUrl = `https://api.themoviedb.org/3/tv/${req.params.id}?api_key=${api_key}&language=fr-FR&region=FR`;
+        apiUrl = `https://api.themoviedb.org/3/tv/${req.params.id}?api_key=${api_key}&language=fr-FR&region=FR&append_to_response=watch/providers`;
     } else {
         // Ajoutez une réponse d'erreur si le type n'est pas correct
         res.status(400).send('Type de contenu non pris en charge. Veuillez spécifier "movie", "Film", "tv", "Série" ou "Anime" comme type.');
@@ -307,11 +307,14 @@ app.get('/read/:id', async (req, res) => {
     try {
         const response = await axios.get(apiUrl);
         const movie = response.data;
+        const frenchProviders = movie['watch/providers'].results.FR;
+
+
         movie.release_date = req.query.date;
 
-        console.log(movie)
+        console.log(frenchProviders)
 
-        res.render('read', { movie: movie });
+        res.render('read', { movie: movie, frenchProviders : frenchProviders });
     } catch (err) {
         console.error('Error fetching data from TMDB API:', err);
         res.status(500).send('Erreur lors de la récupération des données de l\'API TMDB');

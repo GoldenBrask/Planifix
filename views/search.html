@@ -24,7 +24,7 @@
             <a href="/read/{{id}}?date={{release_date}}{{first_air_date}}&type={{media_type}}"><img src="https://image.tmdb.org/t/p/w500{{poster_path}}" alt="{{title}}"></a>
 
             <div class="itemInfo">
-                <a href="/read/{{id}}?date={{release_date}}{{first_air_date}}" class="title">{{title}}{{name}}</a>
+                <a href="/read/{{id}}?date={{release_date}}{{first_air_date}}&type={{media_type}}" class="title">{{title}}{{name}}</a>
                 <p>{{#release_date}}Date de sortie: {{release_date}}{{/release_date}}{{#first_air_date}}Première diffusion : {{first_air_date}}{{/first_air_date}}</p>
             </div>
             
@@ -103,24 +103,6 @@
                 }
             });
         });
-
-
-
-
-
-        function truncateTitle(titleElement, maxLength) {
-            const fullTitle = titleElement.getAttribute('data-title');
-            if (fullTitle.length > maxLength) {
-                titleElement.textContent = fullTitle.slice(0, maxLength) + '...';
-            }
-        }
-
-        const titleElements = document.querySelectorAll('.title');
-        titleElements.forEach((titleElement) => {
-            truncateTitle(titleElement, 20); // Vous pouvez ajuster la longueur maximale (25) selon vos préférences
-        });
-
-
     </script>
 </body>
 

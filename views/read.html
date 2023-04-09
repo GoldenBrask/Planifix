@@ -2,20 +2,20 @@
 <html lang="fr">
 
 <head>
-    <meta
-     charset="UTF-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="read.css">
-    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="/navbar.css">
+    <link rel="stylesheet" href="/read.css">
+
     <title>Document</title>
 </head>
 
 <body>
     {{> navbar}}
-    <h1> Détails du film </h1>
+    <h1>Détails</h1>
     <div class="container">
-        <img src="https://image.tmdb.org/t/p/w300{{movie.poster_path}}" alt="Affiche du film">
+        <img src="https://image.tmdb.org/t/p/w400{{movie.poster_path}}" alt="Affiche du film" id="poster">
         <div class="description">
             <ul>
                 <li class="title">Titre :</li>
@@ -24,11 +24,48 @@
                 <li class="data">{{movie.release_date}}</li>
                 <li class="title">Résumé de l'histoire :</li>
                 <li class="data">{{movie.overview}}</li>
-                <li class="title">Type :</li>
-                <li class="data">{{movie.next_episode_to_air.name}}</li>
             </ul>
         </div>
     </div>
+    {{#frenchProviders}}
+    <h2>Fournisseurs de streaming en France :</h2>
+
+    
+    <h3>Abonnement :</h3>
+    <ul>
+        {{#flatrate}}
+        <li>
+            <img src="https://image.tmdb.org/t/p/original{{logo_path}}" alt="{{provider_name}} logo" width="50">
+            {{provider_name}}
+        </li>
+        {{/flatrate}}
+    </ul>
+    
+
+    
+    <h3>Location :</h3>
+    <ul>
+        {{#rent}}
+        <li>
+            <img src="https://image.tmdb.org/t/p/original{{logo_path}}" alt="{{provider_name}} logo" width="50">
+            {{provider_name}}
+        </li>
+        {{/rent}}
+    </ul>
+   
+
+    
+    <h3>Achat :</h3>
+    <ul>
+        {{#buy}}
+        <li>
+            <img src="https://image.tmdb.org/t/p/original{{logo_path}}" alt="{{provider_name}} logo" width="50">
+            {{provider_name}}
+        </li>
+        {{/buy}}
+    </ul>
+ 
+    {{/frenchProviders}}
 </body>
 
 </html>
