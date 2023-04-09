@@ -10,6 +10,8 @@ app.set('view engine', 'html');
 app.set('views', './views');
 app.use(express.static('./views/images'));
 app.use(express.static('./views/css'));
+app.use(express.static('./views/script'));
+
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -312,7 +314,7 @@ app.get('/read/:id', async (req, res) => {
 
         movie.release_date = req.query.date;
 
-        console.log(frenchProviders)
+        console.log(movie)
 
         res.render('read', { movie: movie, frenchProviders : frenchProviders });
     } catch (err) {

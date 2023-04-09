@@ -74,4 +74,9 @@ h1 {
     width: 91vw;
 }
 
+.sticky {
+    background: #000000;
+    transition: .5s;
+}
+
 

@@ -8,3 +8,7 @@
 body {
     background-color: #004C4C;
 }
+.sticky {
+    background: #000000;
+    transition: .5s;
+}

@@ -27,45 +27,34 @@
             </ul>
         </div>
     </div>
-    {{#frenchProviders}}
-    <h2>Fournisseurs de streaming en France :</h2>
 
-    
-    <h3>Abonnement :</h3>
-    <ul>
-        {{#flatrate}}
-        <li>
-            <img src="https://image.tmdb.org/t/p/original{{logo_path}}" alt="{{provider_name}} logo" width="50">
-            {{provider_name}}
-        </li>
-        {{/flatrate}}
-    </ul>
-    
+    <div >
+        {{#frenchProviders}}
+        <h2>Fournisseurs de streaming en France</h2>
 
-    
-    <h3>Location :</h3>
-    <ul>
-        {{#rent}}
-        <li>
-            <img src="https://image.tmdb.org/t/p/original{{logo_path}}" alt="{{provider_name}} logo" width="50">
-            {{provider_name}}
-        </li>
-        {{/rent}}
-    </ul>
-   
-
-    
-    <h3>Achat :</h3>
-    <ul>
-        {{#buy}}
-        <li>
-            <img src="https://image.tmdb.org/t/p/original{{logo_path}}" alt="{{provider_name}} logo" width="50">
-            {{provider_name}}
-        </li>
-        {{/buy}}
-    </ul>
- 
-    {{/frenchProviders}}
+        <ul class="providers">
+            {{#flatrate}}
+            <li>
+                <img src="https://image.tmdb.org/t/p/original{{logo_path}}" alt="{{provider_name}} logo" width="50">
+            </li>
+            {{/flatrate}}
+        </ul>
+        <ul class="providers">
+            {{#rent}}
+            <li>
+                <img src="https://image.tmdb.org/t/p/original{{logo_path}}" alt="{{provider_name}} logo" width="50">
+            </li>
+            {{/rent}}
+        </ul>
+        <ul class="providers">
+            {{#buy}}
+            <li>
+                <img src="https://image.tmdb.org/t/p/original{{logo_path}}" alt="{{provider_name}} logo" width="50">  
+            </li>
+            {{/buy}}
+        </ul>
+        {{/frenchProviders}}
+    </div>
+{{>script}}
 </body>
-
 </html>

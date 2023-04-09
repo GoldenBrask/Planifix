@@ -23,27 +23,38 @@
                 <tr>
                     <td class="left">Nom d'utilisateur</td>
                     <td class="right">{{username}}</td>
-                    <td><a href="/change_username"><img src="edit_button.png" alt= "Button change" width="35px"></a></td>
+                    <td><a href="/change_username"><img src="edit_button.png" alt="Button change" width="35px"></a></td>
                 </tr>
                 <tr>
                     <td class="left">Email</td>
                     <td class="right">{{email}}</td>
-                    <td><a href="/change_email"><img src="edit_button.png" alt= "Button change" width="35px"></a></td>
+                    <td><a href="/change_email"><img src="edit_button.png" alt="Button change" width="35px"></a></td>
                 </tr>
                 <tr>
                     <td class="left">Mot de passe</td>
                     <td class="right">*******</td>
-                    <td><a href="/change_password"><img src="edit_button.png" alt= "Button change" width="35px"></a></td>
+                    <td><a href="/change_password"><img src="edit_button.png" alt="Button change" width="35px"></a></td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-       
 
 
+    {{>script}}
 
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const navLinks = document.querySelectorAll(".navbar a");
+            const currentUrl = window.location.pathname;
 
+            navLinks.forEach((link) => {
+                if (link.getAttribute("href") === currentUrl) {
+                    link.classList.add("active");
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

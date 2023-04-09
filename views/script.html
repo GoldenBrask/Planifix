@@ -1,4 +1,5 @@
 <script>
+    "use strict"
     // Récupérer les éléments
     const editButton = document.getElementById("addButton");
     const editModal = document.getElementById("editModal");
@@ -59,9 +60,14 @@
         });
     });
 
-    window.addEventListener('scroll', function () {
-        const header = document.querySelector('nav');
-        header.classList.toggle("sticky", window.scrollY > 0);
+    const navbar = document.querySelector('.navbar');
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 0) { // Changer la valeur pour ajuster la position de défilement
+            navbar.classList.add('sticky');
+        } else {
+            navbar.classList.remove('sticky');
+        }
     });
 
     document.addEventListener("DOMContentLoaded", () => {

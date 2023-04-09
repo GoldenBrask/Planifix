@@ -62,8 +62,9 @@
     transform: translateX(0);
 }
 
-.sticky {
+.navbar.sticky {
     background: #000000;
+    transition: all .3s;
 }
 
 img {

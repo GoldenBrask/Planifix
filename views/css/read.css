@@ -7,7 +7,7 @@
     font-family: 'Montserrat', sans-serif;
 }
 
-h1 {
+h1,h2 {
     text-align: center;
     margin-top: 90px;
     color: #ffffff;
@@ -59,6 +59,22 @@ body {
 .data{
     color:#FFFFFF;
     font-size: 22px;
+}
+
+.providers{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.providers li{
+    margin-right:40px ;
+}
+
+.sticky {
+    background: #000000;
+    transition: .5s;
 }
 
 /* Media Query pour les tablettes */

@@ -13,7 +13,7 @@
     <title>Votre espace</title>
 </head>
 
-<body class="body">
+<body>
     {{> navbar}}
     <div class="content-wrapper">
 
@@ -139,7 +139,7 @@
             {{#popular}}
             <div class="slide">
                 <div class="container">
-                    <p data-release-date="{{release_date}}" class="ribbon"></p>
+                    <p data-release-date="{{release_date}}" class="ribbon popular-ribbon"></p>
                     <div class="wrapper">
 
                         <a href="/read/{{id}}?date={{release_date}}&type=movie">

@@ -184,7 +184,6 @@ h2 {
     justify-content: space-between;
     align-items: center;
     flex-direction: column;
-    width: 300px;
     height: 80px;
     font-family: "Poppins", sans-serif;
     font-size: 18px;
@@ -194,6 +193,10 @@ h2 {
     border: solid var(--b) transparent;
     padding: 1em;
     max-width: 23em;
+}
+
+.right{
+    width: 20rem;
 }
 
 .right::before,
@@ -211,13 +214,6 @@ h2 {
     -webkit-mask-composite: source-out;
     mask: var(--corner) subtract, var(--inner);
     content: ''
-}
-
-
-
-.sticky {
-    background: #000000;
-    transition: .5s;
 }
 
 .arrow {
@@ -328,7 +324,11 @@ button {
 }
 
 .list-ribbon {
-    transform: translateY(-500%);
+    transform: translateY(-460%);
+}
+
+.popular-ribbon {
+    transform: translateY(-440%);
 }
 
 #notifContainer {
@@ -357,8 +357,14 @@ button {
     cursor: pointer;
 }
 
-@media screen and (max-width : 780px) {
+@media screen and (max-width : 930px) {
     .searchOption{
         flex-direction: column;
     }
 }
+
+@media screen and (max-width: 460px ) {
+    .right{
+      width: 10rem;
+    }
+  }

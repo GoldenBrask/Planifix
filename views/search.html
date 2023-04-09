@@ -1,15 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="search.css">
     <link rel="stylesheet" href="navbar.css">
-
     <title>Recherche</title>
 </head>
-
 <body>
 
     {{> navbar}}
@@ -37,73 +35,7 @@
         </div>
     </ul>
 
+    <script src="/navbar.js"></script>
 
-    <script>
-
-        document.addEventListener("DOMContentLoaded", function () {
-            // Récupérer les éléments
-            const addButtons = document.querySelectorAll(".addButton");
-
-            // Ajouter un écouteur d'événements pour chaque bouton Modifier
-            addButtons.forEach((button) => {
-                button.onclick = function () {
-                    // Récupérer la fenêtre modale correspondante
-                    const editModal = button.parentElement.nextElementSibling;
-
-
-                    // Récupérer la liste des genre_ids
-                    const genreIds = button.closest('.result-item').dataset.genreIds.split(',');
-
-
-                    // Récupérer et mettre à jour la valeur du type en fonction des genre_ids
-                    const typeInput = editModal.querySelector("#type");
-                    const typeDisplay = editModal.querySelector(".info-container .textside p:nth-child(3)");
-
-
-                    if (typeInput.value === 'tv' && genreIds.includes('16')) {
-                        typeInput.value = 'Anime';
-                        typeDisplay.textContent = 'Type : Anime';
-                    } else if (typeInput.value === 'movie') {
-                        typeInput.value = 'Film';
-                        typeDisplay.textContent = 'Type : Film';
-                    } else {
-                        typeInput.value = 'Série';
-                        typeDisplay.textContent = 'Type : Série';
-                    }
-
-
-                    // Ouvrir la fenêtre modale
-                    editModal.style.display = "block";
-
-                    // Récupérer le bouton de fermeture (x) de cette fenêtre modale
-                    const closeButton = editModal.querySelector(".close");
-
-                    closeButton.onclick = function () {
-                        editModal.style.display = "none";
-                    };
-                };
-            });
-
-
-            // Fermer la fenêtre modale lors du clic en dehors du contenu de la fenêtre modale
-            window.onclick = function (event) {
-                if (event.target.classList.contains("modal")) {
-                    event.target.style.display = "none";
-                }
-            };
-
-            const resultItems = document.querySelectorAll(".result-item");
-
-            resultItems.forEach((item) => {
-                const backdropPath = item.dataset.backdropPath;
-                if (backdropPath) {
-                    item.style.backgroundImage = `url('https://image.tmdb.org/t/p/w500${backdropPath}')`;
-                } else {
-                    item.classList.add("default-backdrop");
-                }
-            });
-        });
-    </script>
 </body>
-
 </html>
