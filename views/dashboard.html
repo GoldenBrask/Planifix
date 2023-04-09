@@ -60,17 +60,26 @@
                         <a href="/read/{{tmdb_id}}?date={{date}}&type={{type}}">
                             <div class="banner-image" style="background-image: url({{poster}});"> </div>
                         </a>
+                        <br>
+                        <a href="/read/{{tmdb_id}}?date={{date}}&type={{type}}">
+                            <p class="truncate">
+                                {{title}}
+                                <br>
+                                <span>{{date}}</span>
+                            </p>
+                        </a>
                         {{/tmdb_id}}
                         {{^tmdb_id}}
                         <div class="banner-image" style="background-image: url({{poster}});"> </div>
-                        {{/tmdb_id}}
-
                         <br>
                         <p class="truncate">
                             {{title}}
                             <br>
                             <span>{{date}}</span>
                         </p>
+                        {{/tmdb_id}}
+
+                        
                         <form action="/delete/{{id}}" method="post">
                             <button type="submit" class="deleteButton">Supprimer</button>
                         </form>
@@ -106,7 +115,7 @@
                         <p class="truncate">
                             {{title}}{{name}}
                             <br>
-                            <span>{{date}}{{first_air_date}}</span>
+                            <span>{{realase_date}}</span>
                         </p>
                     </div>
                 </div>
@@ -141,7 +150,7 @@
                         <p class="truncate">
                             {{title}}{{name}}
                             <br>
-                            <span>{{date}}{{first_air_date}}</span>
+                            <span>{{release_date}}</span>
                         </p>
                     </div>
                 </div>
