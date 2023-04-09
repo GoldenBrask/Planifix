@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="navbar.css">
-    <link rel="stylesheet" href="change_profile.css">
+    <link rel="stylesheet" href="profile.css">
 
     <title>Modifier le nom de l'utlisateur</title>
 </head>
@@ -16,23 +16,26 @@
 
     <h1>Modifier le nom de l'utlisateur</h1>
 
-    <form action="/change_username" method="POST">
+    <div class="container">
 
-        <input type="text" id="username" name="username" placeholder="Nouveau nom d'utilisateur " required>
+        <form action="/change_username" method="POST">
+
+            <div class="grid">
+                <label>Nouveau nom d'utilisateur</label>
+                <input type="text" id="new_username" name="new_username" required>
+            </div>
+
+            <div class="grid">
+                <label>Entrez votre mot de passe</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            
+            <button type="submit" value="Valider">Valider</button>
 
 
-        <div class="confirm_password">
-            <span>Entrez votre mot de passe actuel pour pouvoir faire la modification</span>
+        </form>
 
-            <input type="password" id="password" name="password" placeholder="Mot de passe actuel " required>
-
-        </div>
-
-
-        <button type="submit" value="Valider">Valider</button>
-    </form>
     </div>
-
 
 
 </body>

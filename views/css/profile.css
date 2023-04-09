@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    color: #ffffff;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #004C4C;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 90px;
+    color: #ffffff;
+    font-weight: 900;
+}
+
+.container {
+    margin-top: 75px;
+    padding: 50px;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+.grid{
+    display: grid;
+    grid-template-columns: 250px 400px 10px;
+    grid-template-rows: 20px 20px 20px;
+}
+
+label{
+    color: #ffffffb9;
+    font-size: 18px;
+    justify-self: flex-start;
+    align-self: center;
+}
+
+span{
+    font-size: 20px;
+    align-self: center;
+    padding-left: 10px;
+}
+
+a{
+    justify-self: end;
+    align-self: center;
+}
+
+
+/* Modification profile */
+
+form{
+    display: grid;
+    font-family: "Poppins", sans-serif;
+}
+
+form
+
+
+input{
+    align-self: center;
+    padding: 1%;
+    margin: 1%;
+    font-size: 18px;
+    border-radius: 3px;
+    color: black;
+    outline: none;
+    border: none;
+}
+
+button {
+    justify-self: center;
+    align-self: center;
+    margin-top: 50px;
+    padding: 15px;
+    width: 100%;
+    background-color: #ffffff;
+    color: #080710;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+}
+
+@media (max-width : 780px) {
+    .grid{
+        display: grid;
+        grid-template-columns: 160px 390px 0px;
+        grid-template-rows: 20px 20px 20px;
+        background-color: yellow;
+    }
+
+    span{
+        font-size: larger;
+        align-self: center;
+        padding-left: 5px;
+    }
+
+}
+

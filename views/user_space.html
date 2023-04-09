@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="navbar.css">
-    <link rel="stylesheet" href="user_space.css">
+    <link rel="stylesheet" href="profile.css">
 
     <title>Informations personnelles</title>
 </head>
@@ -18,30 +18,26 @@
     <h1>Informations personnelles</h1>
 
     <div class="container">
-        <table>
-            <tbody>
-                <tr>
-                    <td class="left">Nom d'utilisateur</td>
-                    <td class="right">{{username}}</td>
-                    <td><a href="/change_username"><img src="edit_button.png" alt= "Button change" width="35px"></a></td>
-                </tr>
-                <tr>
-                    <td class="left">Email</td>
-                    <td class="right">{{email}}</td>
-                    <td><a href="/change_email"><img src="edit_button.png" alt= "Button change" width="35px"></a></td>
-                </tr>
-                <tr>
-                    <td class="left">Mot de passe</td>
-                    <td class="right">*******</td>
-                    <td><a href="/change_password"><img src="edit_button.png" alt= "Button change" width="35px"></a></td>
-                </tr>
-            </tbody>
-        </table>
+
+        <div class="grid">
+            <label>Nom d'utilisateur</label>
+            <span>{{username}}</span>
+            <a href="/change_username"><img src="edit_button.png" alt="Button change" width="35px"></a>
+        </div>
+
+        <div class="grid">
+            <label>Email</label>
+            <span>{{email}}</span>
+            <a href="/change_email"><img src="edit_button.png" alt="Button change" width="35px"></a>
+        </div>
+
+        <div class="grid">
+            <label>Mot de passe</label>
+            <span>******</span>
+            <a href="/change_password"><img src="edit_button.png" alt="Button change" width="35px"></a>
+        </div>
+
     </div>
-
-       
-
-
 
 
 </body>
