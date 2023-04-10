@@ -34,7 +34,7 @@
 
                 <div class="right">
                     <p>MANUELLEMENT</p>
-                    <button id="addButton">Ajouter</button>
+                    <button class="button" id="addButton">Ajouter</button>
                 </div>
             </div>
         </div>
@@ -81,7 +81,7 @@
 
                         
                         <form action="/delete/{{id}}" method="post">
-                            <button type="submit" class="deleteButton">Supprimer</button>
+                            <button type="submit" class="button">Supprimer</button>
                         </form>
                     </div>
                 </div>
@@ -117,6 +117,14 @@
                             <br>
                             <span>{{realase_date}}</span>
                         </p>
+                        <form action="/add" method="post">
+                            <input type="text" id="tmdb_id" name="tmdb_id" value="{{id}}" hidden>
+                            <input type="text" id="title" name="title" value="{{title}}{{name}}" hidden>
+                            <input type="date" name="date" id="date" value="{{release_date}}{{first_air_date}}" hidden>
+                            <input type="text" id="poster" name="poster" value="https://image.tmdb.org/t/p/w500{{poster_path}}" hidden>
+                            <input type="text" id="type" name="type" value="{{media_type}}" hidden>
+                            <button type="submit">Ajouter</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -189,12 +197,13 @@
                     </select>
 
 
-                    <button type="submit">Envoyer</button>
+                    <button type="submit" class="button">Envoyer</button>
                 </form>
             </div>
         </div>
     </div>
     {{> script}}
+    {{>footer}}
 </body>
 
 </html>

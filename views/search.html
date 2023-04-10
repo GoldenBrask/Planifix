@@ -26,16 +26,21 @@
                 <p>{{#release_date}}Date de sortie: {{release_date}}{{/release_date}}{{#first_air_date}}Première diffusion : {{first_air_date}}{{/first_air_date}}</p>
             </div>
             
-
-            <button type="submit">Ajouter</button>
+            <form action="/add" method="post">
+                <input type="text" id="tmdb_id" name="tmdb_id" value="{{id}}" hidden>
+                <input type="text" id="title" name="title" value="{{title}}{{name}}" hidden>
+                <input type="date" name="date" id="date" value="{{release_date}}{{first_air_date}}" hidden>
+                <input type="text" id="poster" name="poster" value="https://image.tmdb.org/t/p/w500{{poster_path}}" hidden>
+                <input type="text" id="type" name="type" value="{{media_type}}" hidden>
+                <button type="submit">Ajouter</button>
+            </form>
+            
         </li>
         {{/results}}
 
         
         </div>
     </ul>
-
-    <script src="/navbar.js"></script>
-
+    {{> script}}
 </body>
 </html>

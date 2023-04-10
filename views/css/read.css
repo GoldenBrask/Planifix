@@ -9,7 +9,6 @@
 
 h1,h2 {
     text-align: center;
-    margin-top: 90px;
     color: #ffffff;
     font-weight: 900;
 }
@@ -69,6 +68,7 @@ body {
 }
 
 .providers li{
+    margin-top: 20px;
     margin-right:40px ;
 }
 

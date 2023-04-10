@@ -15,12 +15,13 @@
     margin: 0;
     padding: 0;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 }
 
 .navbar li {
     display: inline;
+    align-self: center;
 }
 
 .navbar a {
@@ -30,6 +31,22 @@
     letter-spacing: .5px;
     cursor: pointer;
     font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.navbar ul li:nth-child(1){
+    margin-left: 20px;
+}
+.navbar ul li:nth-child(3){
+    margin-right: 20px;
+}
+
+#deco{
+    margin-right: 8px;
+}
+#hello{
+    margin-left: 8px;
 }
 
 .navbar li a:before {
