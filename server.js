@@ -294,6 +294,30 @@ app.get('/anime', (req, res) => {
     res.render('anime');
 });
 
+app.get('/event', (req, res) => {
+    if (!res.locals.authenticated) {
+        res.redirect('/login');
+        return;
+    }
+    res.render('event');
+});
+
+app.get('/show', (req, res) => {
+    if (!res.locals.authenticated) {
+        res.redirect('/login');
+        return;
+    }
+    res.render('show');
+});
+
+app.get('/movies', (req, res) => {
+    if (!res.locals.authenticated) {
+        res.redirect('/login');
+        return;
+    }
+    res.render('movies');
+});
+
 
 
 // Route POST "/delete/:id"

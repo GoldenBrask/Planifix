@@ -46,14 +46,18 @@
             </li>
             {{/rent}}
         </ul>
-        <ul class="providers">
-            {{#buy}}
-            <li>
-                <img src="https://image.tmdb.org/t/p/original{{logo_path}}" alt="{{provider_name}} logo" width="50">  
-            </li>
-            {{/buy}}
-        </ul>
         {{/frenchProviders}}
+    </div>
+
+    <div>
+        
+        <ul>
+            {{#seasons}}
+            <li>
+                <img src="https://image.tmdb.org/t/p/original{{logo_path}}" alt="{{poster_path}} logo" width="150">
+            </li>
+            {{/seasons}}
+        </ul>
     </div>
 {{>script}}
 </body>

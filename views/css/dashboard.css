@@ -5,6 +5,8 @@
     padding: 0;
     font-family: 'Montserrat', sans-serif;
     text-decoration: none;
+    border: none;
+    outline: none;
 }
 
 body {
@@ -22,6 +24,29 @@ body {
     height: 100%;
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.4);
+    padding: 10px;
+}
+
+.modal input,
+.modal select{
+
+    display: block;
+    height: 50px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.411);
+    border-radius: 3px;
+    margin-top: 20px;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.modal::placeholder {
+    color: #e1e1e1;
+    margin-left: 10px;
+}
+
+.modal input:hover {
+    outline: 2px solid rgba(255, 255, 255, 0.067);
 }
 
 /* Contenu de la fenêtre modale */
@@ -286,11 +311,15 @@ h2 {
     outline: 2px solid rgba(255, 255, 255, 0.067);
 }
 
+#modal-form button{
+    margin-top: 20px;
+}
+
 button {
     cursor: pointer;
 }
 
-#addButton {
+.button {
     width: 100%;
     background-color: #ffffff;
     color: #080710;
@@ -303,7 +332,7 @@ button {
     transition: all .3s;
 }
 
-#addButton:hover {
+button:hover {
     background-color: #57bd84;
 }
 
@@ -324,7 +353,7 @@ button {
 }
 
 .list-ribbon {
-    transform: translateY(-460%);
+    transform: translateY(-500%);
 }
 
 .popular-ribbon {
