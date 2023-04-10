@@ -61,7 +61,43 @@ function userExist(email) {
 
 //////////////////////////////////////////////////MISE À JOUR DONNÉES PROFILS///////////////////////////////////////////////////
 
+exports.update_username = function (user_id, new_username, password) {
+    const user = db.prepare('SELECT * FROM user WHERE id = ?').get(user_id);
+    const passwordMatch = bcrypt.compareSync(password, user.password);
 
+    if (passwordMatch) {
+        const update_username = db.prepare('UPDATE user SET username = ? WHERE id = ?').run(new_username, user_id);
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+exports.update_email = function (user_id, new_email, confirm_new_email, password) {
+    const user = db.prepare('SELECT * FROM user WHERE id = ?').get(user_id);
+    const passwordMatch = bcrypt.compareSync(password, user.password);
+    
+    if (passwordMatch) {
+        console.log(new_email && new_email===confirm_new_email);
+        const update_email = db.prepare('UPDATE user SET email = ? WHERE id = ?').run(new_email, user_id);
+        return 1;
+    } else {
+        return 0;
+    }
+
+}
+
+exports.update_password = function (user_id, password, new_password, confirm_new_password) {
+    const user = db.prepare('SELECT * FROM user WHERE id = ?').get(user_id);
+    const passwordMatch = bcrypt.compareSync(password, user.password);
+
+    if (passwordMatch && new_password===confirm_new_password) {
+        const update_password = db.prepare('UPDATE user SET password = ? WHERE id = ?').run(new_password, user_id);
+        return 1;
+    } else {
+        return 0;
+    }
+}
 
 ////////////////////////GESTION DES DONNéES////////////////////////////////////////////////
 exports.add_item = function (tmdb_id, title, date, poster, type, user_id) {

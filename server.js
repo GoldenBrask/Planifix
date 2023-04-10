@@ -28,6 +28,7 @@ cloudinary.config({
 });
 
 const multer = require('multer');
+const { SourceTextModule } = require('vm');
 const upload = multer({ dest: 'uploads/' });
 
 
@@ -166,11 +167,12 @@ app.get('/user_space', (req, res) => {
         return;
     }
     const user_id = res.locals.id;
-    const user_data = model.get_user_data(user_id);
-    res.render('user_space', { email: user_data });
+    const user_name = model.getUsername(user_id);
+    const user_email = model.get_user_data(user_id);
+    res.render('user_space', {username: user_name, email: user_email });
 });
 
-/*MODIFIER PROFIL**/
+/* PROFILE CHANGE PAGES **/
 
 // Route GET "/change_username"
 app.get('/change_username', (req, res) => {
@@ -178,20 +180,31 @@ app.get('/change_username', (req, res) => {
         res.redirect('/login');
         return;
     }
-    const user_id = res.locals.id;
-    const user_data = model.get_user_data(user_id);
-    res.render('change_username', { email: user_data });
+    res.render('change_username');
 });
 
 // Route POST "change_username"
-app.post('change_username', (req, res) => {
+app.post('/change_username', (req, res) => {
     if (!res.locals.authenticated) {
         res.redirect('/login');
         return;
     }
-    const id = res.locals.id;
-    const user_data = get_user_data(id);
-    res.render('change_username', { email: user_data });
+
+    const user_id = res.locals.id;
+    const new_username = req.body.new_username;
+    const password = req.body.password;
+    const update_username = model.update_username(user_id, new_username, password);
+
+    if (update_username == 0) {
+        res.redirect('/change_username');
+        console.log("erreur");
+        document.getElementById("h2").innerHTML = "Réessayer";
+
+    } else {
+        res.redirect('/user_space');
+    }
+
+
 });
 
 // Route GET "/change_email"
@@ -200,21 +213,33 @@ app.get('/change_email', (req, res) => {
         res.redirect('/login');
         return;
     }
-    const user_id = res.locals.id;
-    const user_data = model.get_user_data(user_id);
-    res.render('change_email', { email: user_data });
+
+    res.render('change_email');
 });
 
 // Route POST "/change_email"
-
 app.post('/change_email', (req, res) => {
     if (!res.locals.authenticated) {
         res.redirect('/login');
         return;
     }
-    const id = res.locals.id;
-    const user_data = get_user_data(id);
-    res.render('change_email', { email: user_data });
+
+    const user_id = res.locals.id;
+    const new_email = req.body.new_email;
+    const confirm_new_email = req.body.confirm_new_email;
+    const password = req.body.password;
+    const update_email = model.update_email(user_id, new_email, confirm_new_email, password);
+
+    if (update_email == 0) {
+        res.redirect('/change_email');
+        console.log("erreur");
+        document.getElementById("h2").innerHTML = "Réessayer";
+
+    } else {
+        res.redirect('/user_space');
+    }
+
+
 });
 
 // Route GET "/change_password"
@@ -223,22 +248,42 @@ app.get('/change_password', (req, res) => {
         res.redirect('/login');
         return;
     }
-    const user_id = res.locals.id;
-    const user_data = model.get_user_data(user_id);
-    res.render('change_password', { email: user_data });
+
+    res.render('change_password');
 });
 
-// Route POST "/user_space"
-
+// Route POST "/change_password"
 app.post('/change_password', (req, res) => {
     if (!res.locals.authenticated) {
         res.redirect('/login');
         return;
     }
-    const id = res.locals.id;
-    const user_data = get_user_data(id);
-    res.render('change_password', { email: user_data });
+
+    const user_id = res.locals.id;
+    const password = req.body.password;
+    const new_password = req.body.new_password;
+    const confirm_new_password = req.body.confirm_new_password;
+    const update_password = model.update_password(user_id, password, new_password, confirm_new_password);
+
+    if (update_password == 0) {
+        res.redirect('/change_password');
+        console.log("erreur");
+        document.getElementById("h2").innerHTML = "Réessayer";
+
+    } else {
+        res.redirect('/user_space');
+    }
+
+
 });
+
+
+
+
+
+
+
+
 
 // Route GET "/anime"
 app.get('/anime', (req, res) => {

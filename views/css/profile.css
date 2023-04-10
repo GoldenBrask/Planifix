@@ -57,15 +57,11 @@ a{
 }
 
 
-/* Modification profile */
+/* Profile change pages */
 
 form{
     display: grid;
-    font-family: "Poppins", sans-serif;
 }
-
-form
-
 
 input{
     align-self: center;
