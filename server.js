@@ -27,15 +27,12 @@ cloudinary.config({
     api_secret: 'jTjVULtJ63B9kioQW-vTVz0gmfU',
 });
 
-<<<<<<< HEAD
 const multer = require('multer');
 const { SourceTextModule } = require('vm');
 const { Cookie } = require('express-session');
 const upload = multer({ dest: 'uploads/' });
 
 
-=======
->>>>>>> 263ee861277f2c5111b83735150e02d97427310f
 
 app.use(cookieSession({
     secret: secret,
