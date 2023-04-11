@@ -158,9 +158,7 @@ h2 {
     overflow: clip;
     text-overflow: ellipsis;
     width: 100%;
-    /* Vous pouvez ajuster cette valeur en fonction de la largeur souhaitée */
     max-width: 200px;
-    /* Vous pouvez ajuster cette valeur en fonction de la largeur maximale souhaitée */
 }
 
 .top {
