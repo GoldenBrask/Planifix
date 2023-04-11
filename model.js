@@ -91,8 +91,13 @@ exports.update_password = function (user_id, password, new_password, confirm_new
     const user = db.prepare('SELECT * FROM user WHERE id = ?').get(user_id);
     const passwordMatch = bcrypt.compareSync(password, user.password);
 
+    
+
     if (passwordMatch && new_password===confirm_new_password) {
-        const update_password = db.prepare('UPDATE user SET password = ? WHERE id = ?').run(new_password, user_id);
+        const salt = bcrypt.genSaltSync(10);
+        const hash = bcrypt.hashSync(new_password, salt);
+
+        const update_password = db.prepare('UPDATE user SET password = ? WHERE id = ?').run(hash, user_id);
         return 1;
     } else {
         return 0;
