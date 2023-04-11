@@ -16,22 +16,23 @@
 
     <h1>Modifier le nom d'utlisateur</h1>
 
-    <h2>_</h2>
 
     <div class="container">
 
         <form action="/change_username" method="post">
 
+            <div id="message_failed"></div>
+
             <div class="grid">
                 <label>Nouveau nom d'utilisateur</label>
-                <input type="text" id="new_username" name="new_username" required>
+                <input type="text" id="new_username" name="new_username" maxlength="17" required>
             </div>
 
             <div class="grid">
                 <label>Entrez votre mot de passe</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            
+
             <button type="submit" value="Valider">Valider</button>
 
 
@@ -39,6 +40,24 @@
 
     </div>
 
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+
+            const wrong_password = urlParams.get("wrong_password");
+
+            if (wrong_password) {
+                document.getElementById("message_failed").innerHTML = "Le mot de passe est incorrect, veuillez réessayer";
+                document.getElementById("message_failed").style.display = "block";
+            }
+
+        });
+    </script>
 
 
 </body>
+
+
+
+</html>

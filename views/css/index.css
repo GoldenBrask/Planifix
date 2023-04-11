@@ -120,6 +120,7 @@ body {
 }
 
 .description{
+    color: aliceblue;
     width: 35vw;
     border-radius: 8px;
     margin-left: 20px;

@@ -67,22 +67,30 @@ exports.update_username = function (user_id, new_username, password) {
 
     if (passwordMatch) {
         const update_username = db.prepare('UPDATE user SET username = ? WHERE id = ?').run(new_username, user_id);
-        return 1;
+        return "change_successfully";
     } else {
-        return 0;
+        return "wrong_password";
     }
 }
 
 exports.update_email = function (user_id, new_email, confirm_new_email, password) {
     const user = db.prepare('SELECT * FROM user WHERE id = ?').get(user_id);
     const passwordMatch = bcrypt.compareSync(password, user.password);
-    
+
     if (passwordMatch) {
-        console.log(new_email && new_email===confirm_new_email);
-        const update_email = db.prepare('UPDATE user SET email = ? WHERE id = ?').run(new_email, user_id);
-        return 1;
+        if (new_email === confirm_new_email) {
+            if (userExist(new_email)) {
+                return "email_unavailable";
+            } else {
+                const update_email = db.prepare('UPDATE user SET email = ? WHERE id = ?').run(new_email, user_id);
+                return "change_successfully";
+            }
+        }
+        else {
+            return "emails_not_match";
+        }
     } else {
-        return 0;
+        return "wrong_password";
     }
 
 }
@@ -91,17 +99,23 @@ exports.update_password = function (user_id, password, new_password, confirm_new
     const user = db.prepare('SELECT * FROM user WHERE id = ?').get(user_id);
     const passwordMatch = bcrypt.compareSync(password, user.password);
 
-    
 
-    if (passwordMatch && new_password===confirm_new_password) {
-        const salt = bcrypt.genSaltSync(10);
-        const hash = bcrypt.hashSync(new_password, salt);
 
-        const update_password = db.prepare('UPDATE user SET password = ? WHERE id = ?').run(hash, user_id);
-        return 1;
+    if (passwordMatch) {
+        if (new_password === confirm_new_password) {
+            const salt = bcrypt.genSaltSync(10);
+            const hash = bcrypt.hashSync(new_password, salt);
+
+            const update_password = db.prepare('UPDATE user SET password = ? WHERE id = ?').run(hash, user_id);
+            return "change_successfully";
+        } else {
+            return "passwords_not_match";
+        }
+
     } else {
-        return 0;
+        return "wrong_password";
     }
+
 }
 
 ////////////////////////GESTION DES DONNéES////////////////////////////////////////////////
