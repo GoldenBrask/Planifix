@@ -267,7 +267,7 @@ app.post('/change_username', (req, res) => {
     const password = req.body.password;
     const try_update_username = model.update_username(user_id, new_username, password);
 
-    if (try_update_username == 0) {
+    if (try_update_username == "wrong_password") {
         res.redirect(`/change_username?wrong_password=true`);
     } else {
         res.redirect('/user_space?change_successfully=true');
