@@ -47,6 +47,7 @@ h1 {
     margin-top: 10px;
     transition: all ease-in-out .2s;
     position: relative;
+    min-height: 150px;
 }
 
 .title {
@@ -56,8 +57,28 @@ h1 {
 }
 
 .resultat button{
-    margin-right: 10vw;
+    width: 100%;
+    background-color: #ffffff;
+    color: #080710;
+    padding: 15px 20px;
+    margin-right: 20px;
+    font-size: 1.1em;
+    font-weight: 600;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    transition: all .3s;
 }
+
+.resultat form{
+    margin-right: 20px;
+}
+
+.resultat button:hover{
+    background-color: #57bd84;
+}
+
+
 
 .itemInfo{
     display: flex;
@@ -74,9 +95,19 @@ h1 {
     width: 91vw;
 }
 
-.sticky {
-    background: #000000;
-    transition: .5s;
+@media screen and (max-width : 650px) {
+    .resultat{
+        flex-direction: column;
+    }
+    .resultat img {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        
+    }
+
+    .resultat form{
+        margin: 0px;
+    }
 }
 
 

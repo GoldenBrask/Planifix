@@ -338,6 +338,7 @@ app.post('/delete/:id', (req, res) => {
 app.get('/search', async (req, res) => {
 
     const query = req.query.query;
+    const filteredResults = [];
 
     if (!query) {
         res.render('search', { results: [] });
@@ -350,7 +351,14 @@ app.get('/search', async (req, res) => {
         const response = await axios.get(apiUrl);
         const results = response.data.results;
 
-        res.render('search', { results: results });
+        results.forEach(result => {
+            if (result.media_type === "movie" || result.media_type === "tv") {
+                // Ajoutez le résultat au tableau filtré s'il est de type "movie" ou "tv"
+                filteredResults.push(result);
+            }
+        });
+
+        res.render('search', { results: filteredResults });
     } catch (err) {
         console.error('Error fetching data from TMDB API:', err);
         res.status(500).send('Erreur lors de la récupération des données de l\'API TMDB');

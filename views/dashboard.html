@@ -192,15 +192,15 @@
         <div id="editModal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
-                <form id="modal-form" action="/add" method="post" >
+                <form id="modal-form" action="/add" method="post">
 
-                    <input type="text" id="title" name="title" value="{{title}}{{name}}" placeholder="Titre" required>
+                    <input type="text" id="title" name="title" placeholder="Titre" required>
 
-                    <input type="date" id="date" name="date" value="{{release_date}}{{first_air_date}}"
-                        placeholder="Date" required>
+                    <input type="date" id="date" name="date" placeholder="Date" required>
+
+                    <input type="text" id="add_poster" name="poster" value="" placeholder="Lien de l'affiche" hidden>
 
                     <button type="button" id="upload-image-btn">Télécharger une image</button>
-                    <input type="hidden" id="poster" name="poster" value="">
 
                     <select id="type" name="type" required>
                         <option value="Film">Film</option>
