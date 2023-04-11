@@ -152,6 +152,9 @@
     
 
     function showUploadWidget() {
+        let posterInput = document.getElementById("add_poster").value;
+        console.log("OUI OUI");
+        console.log(posterInput);
         cloudinary.openUploadWidget(
             {
                 cloudName: 'dcktbp159',
@@ -192,8 +195,10 @@
                     if (info.event === "success") {
                         console.log("URL de l'image téléchargée:", info.info.url);
                         const imageUrl = info.info.url;
-                        console.log(imageUrl)
-                        document.getElementById("poster").value = imageUrl;
+                        console.log(posterInput);
+                        posterInput = imageUrl;
+                        console.log(posterInput);
+                        document.getElementById("add_poster").value = imageUrl;
                     } else {
                         console.log("Upload Widget event - ", info);
                     }
