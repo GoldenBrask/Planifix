@@ -334,6 +334,11 @@ button:hover {
     background-color: #57bd84;
 }
 
+.deletebutton:hover {
+    background-color: #f84343;
+    color: white;
+}
+
 .info-container {
     display: flex;
 }
@@ -347,16 +352,9 @@ button:hover {
     border-radius: 2px;
     box-shadow: -1px 2px 3px rgba(0, 0, 0, 0.5);
     width: 93%;
-    transform: translateY(-420%);
-}
-
-.list-ribbon {
     transform: translateY(-500%);
 }
 
-.popular-ribbon {
-    transform: translateY(-440%);
-}
 
 #notifContainer {
     position: fixed;
@@ -375,6 +373,9 @@ button:hover {
     font-size: 1.3rem;
     border-radius: 5px;
 }
+.notification.delete {
+    background-color: #bd5757;
+}
 
 #notifContainer.show {
     bottom: 2rem;
@@ -383,6 +384,8 @@ button:hover {
 .banner-image a{
     cursor: pointer;
 }
+
+
 
 @media screen and (max-width : 930px) {
     .searchOption{

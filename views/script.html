@@ -101,6 +101,7 @@
             setTimeout(() => {
                 notification.textContent = "Vous avez supprimé : " + decodeURIComponent(deleted);
                 notifContainer.classList.add("show");
+                notification.classList.add("delete");
             }, 200);
 
 
@@ -110,6 +111,7 @@
         }
         if (added) {
             setTimeout(() => {
+                notification.classList.remove("delete");
                 notification.textContent = "Vous avez ajouté : " + decodeURIComponent(added);
                 notifContainer.classList.add("show");
             }, 200);
@@ -147,8 +149,65 @@
 
     updateDaysRemaining();
 
+<<<<<<< HEAD
     
 
+=======
+    function showUploadWidget() {
+        cloudinary.openUploadWidget(
+            {
+                cloudName: 'dcktbp159',
+                uploadPreset: 'default',
+                sources: ['url', 'local'],
+                googleApiKey: '<image_search_google_api_key>',
+                showAdvancedOptions: true,
+                cropping: false,
+                multiple: false,
+                defaultSource: 'local',
+                styles: {
+                    palette: {
+                        window: "#FFFFFF",
+                        windowBorder: "#90A0B3",
+                        tabIcon: "#0078FF",
+                        menuIcons: "#5A616A",
+                        textDark: "#000000",
+                        textLight: "#FFFFFF",
+                        link: "#0078FF",
+                        action: "#FF620C",
+                        inactiveTabIcon: "#0E2F5A",
+                        error: "#F44235",
+                        inProgress: "#0078FF",
+                        complete: "#20B832",
+                        sourceBg: "#E4EBF1"
+                    },
+                    fonts: {
+                        default: null,
+                        "sans-serif": {
+                            url: null,
+                            active: true
+                        }
+                    }
+                }
+            },
+            (err, info) => {
+                if (!err) {
+                    if (info.event === "success") {
+                        console.log("URL de l'image téléchargée:", info.info.url);
+                        const imageUrl = info.info.url;
+                        console.log(imageUrl)
+                        document.getElementById("poster").value = imageUrl;
+                    } else {
+                        console.log("Upload Widget event - ", info);
+                    }
+                }
+            }
+
+        );
+    }
+
+    const uploadImageButton = document.getElementById('upload-image-btn');
+    uploadImageButton.addEventListener('click', showUploadWidget);
+>>>>>>> 263ee861277f2c5111b83735150e02d97427310f
 
 
 

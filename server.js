@@ -27,12 +27,15 @@ cloudinary.config({
     api_secret: 'jTjVULtJ63B9kioQW-vTVz0gmfU',
 });
 
+<<<<<<< HEAD
 const multer = require('multer');
 const { SourceTextModule } = require('vm');
 const { Cookie } = require('express-session');
 const upload = multer({ dest: 'uploads/' });
 
 
+=======
+>>>>>>> 263ee861277f2c5111b83735150e02d97427310f
 
 app.use(cookieSession({
     secret: secret,
@@ -127,7 +130,8 @@ app.get('/dashboard', async (req, res) => {
     const userItems = model.get_user_items(res.locals.id);
     const upcomingMovies = await model.get_upcoming_movies();
     const popular = await model.get_popular();
-    console.log(popular)
+
+    console.log(upcomingMovies)
 
 
     res.render('dashboard', {
@@ -354,7 +358,6 @@ app.get('/search', async (req, res) => {
     try {
         const response = await axios.get(apiUrl);
         const results = response.data.results;
-        console.log(results)
 
         res.render('search', { results: results });
     } catch (err) {
@@ -389,7 +392,7 @@ app.get('/read/:id', async (req, res) => {
         res.render('read', { movie: movie, frenchProviders: frenchProviders });
     } catch (err) {
         console.error('Error fetching data from TMDB API:', err);
-        res.status(500).send('Erreur lors de la récupération des données de l\'API TMDB');
+        res.status(500).send('Erreur lors de la récupération des données');
     }
 });
 
