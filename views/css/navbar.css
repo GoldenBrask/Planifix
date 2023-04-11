@@ -31,6 +31,7 @@
     letter-spacing: .5px;
     cursor: pointer;
     font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
     display: flex;
     align-items: center;
 }
@@ -57,9 +58,7 @@
     background: #007c7c;
     transition: .5s;
     left: 50%;
-    /* Change this line */
     transform: translateX(-50%);
-    /* Add this line */
     bottom: -10px;
 }
 
@@ -67,12 +66,9 @@
 .navbar li a:hover:before {
     width: 100%;
     left: 0;
-    /* Add this line */
     transform: translateX(0);
-    /* Add this line */
 }
 
-/* navbar.css */
 .navbar li a.active:before {
     width: 100%;
     left: 0;
@@ -148,5 +144,17 @@ img {
     .navbar li a {
         display: block;
         padding: 10px 0;
+        
+    }
+
+    .navbar li span{
+        display: none;
+    }
+
+    .navbar ul li:nth-child(1){
+        margin-left: 0px;
+    }
+    .navbar ul li:nth-child(3){
+        margin-right: 0px;
     }
 }
