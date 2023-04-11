@@ -27,6 +27,12 @@ cloudinary.config({
     api_secret: 'jTjVULtJ63B9kioQW-vTVz0gmfU',
 });
 
+const multer = require('multer');
+const { SourceTextModule } = require('vm');
+const { Cookie } = require('express-session');
+const upload = multer({ dest: 'uploads/' });
+
+
 
 app.use(cookieSession({
     secret: secret,
@@ -38,7 +44,7 @@ function is_authenticated(req, res, next) {
     if (req.session && req.session.userid) {
 
         res.locals.authenticated = true;
-        res.locals.username = req.session.username;
+        res.locals.username = model.getUsername(req.session.userid);
         res.locals.id = req.session.userid;
     } else {
         res.locals.authenticated = false;
@@ -118,7 +124,6 @@ app.get('/dashboard', async (req, res) => {
         res.redirect('/login');
         return;
     }
-
     const userItems = model.get_user_items(res.locals.id);
     const upcomingMovies = await model.get_upcoming_movies();
     const popular = await model.get_popular();
@@ -165,7 +170,7 @@ app.get('/user_space', (req, res) => {
     const user_id = res.locals.id;
     const user_name = model.getUsername(user_id);
     const user_email = model.get_user_data(user_id);
-    res.render('user_space', {username: user_name, email: user_email });
+    res.render('user_space', { user_name: user_name, email: user_email });
 });
 
 /* PROFILE CHANGE PAGES **/
@@ -189,15 +194,12 @@ app.post('/change_username', (req, res) => {
     const user_id = res.locals.id;
     const new_username = req.body.new_username;
     const password = req.body.password;
-    const update_username = model.update_username(user_id, new_username, password);
+    const try_update_username = model.update_username(user_id, new_username, password);
 
-    if (update_username == 0) {
-        res.redirect('/change_username');
-        console.log("erreur");
-        document.getElementById("h2").innerHTML = "Réessayer";
-
+    if (try_update_username == 0) {
+        res.redirect(`/change_username?wrong_password=true`);
     } else {
-        res.redirect('/user_space');
+        res.redirect('/user_space?change_successfully=true');
     }
 
 
@@ -224,15 +226,18 @@ app.post('/change_email', (req, res) => {
     const new_email = req.body.new_email;
     const confirm_new_email = req.body.confirm_new_email;
     const password = req.body.password;
-    const update_email = model.update_email(user_id, new_email, confirm_new_email, password);
+    const try_update_email = model.update_email(user_id, new_email, confirm_new_email, password);
+    if (try_update_email == "wrong_password") {
+        res.redirect(`/change_email?wrong_password=true`);
+    }
+    else if (try_update_email == "email_unavailable") {
+        res.redirect(`/change_email?email_unavailable=true`);
 
-    if (update_email == 0) {
-        res.redirect('/change_email');
-        console.log("erreur");
-        document.getElementById("h2").innerHTML = "Réessayer";
-
-    } else {
-        res.redirect('/user_space');
+    } else if (try_update_email == "emails_not_match") {
+        res.redirect(`/change_email?emails_not_match=true`);
+    }
+    else {
+        res.redirect('/user_space?change_successfully=true');
     }
 
 
@@ -259,15 +264,16 @@ app.post('/change_password', (req, res) => {
     const password = req.body.password;
     const new_password = req.body.new_password;
     const confirm_new_password = req.body.confirm_new_password;
-    const update_password = model.update_password(user_id, password, new_password, confirm_new_password);
+    const try_update_password = model.update_password(user_id, password, new_password, confirm_new_password);
 
-    if (update_password == 0) {
-        res.redirect('/change_password');
-        console.log("erreur");
-        document.getElementById("h2").innerHTML = "Réessayer";
+    if (try_update_password == "wrong_password") {
+        res.redirect(`/change_password?wrong_password=true`);
 
+    } else if (try_update_password == "passwords_not_match") {
+        res.redirect(`/change_password?passwords_not_match=true`);
     } else {
-        res.redirect('/user_space');
+        res.redirect('/user_space?change_successfully=true');
+
     }
 
 
@@ -388,7 +394,7 @@ app.get('/read/:id', async (req, res) => {
 
         console.log(movie)
 
-        res.render('read', { movie: movie, frenchProviders : frenchProviders });
+        res.render('read', { movie: movie, frenchProviders: frenchProviders });
     } catch (err) {
         console.error('Error fetching data from TMDB API:', err);
         res.status(500).send('Erreur lors de la récupération des données');

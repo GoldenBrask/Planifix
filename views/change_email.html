@@ -20,6 +20,8 @@
 
         <form action="/change_email" method="POST">
 
+            <div id="message_failed"></div>
+
             <div class="grid">
                 <label>Nouveau email</label>
                 <input type="email" id="new_email" name="new_email" required>
@@ -41,6 +43,28 @@
         </form>
 
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const wrong_password = urlParams.get("wrong_password");
+            const email_unavailable = urlParams.get("email_unavailable");
+            const emails_not_match = urlParams.get("emails_not_match");
+
+            if (wrong_password) {
+                document.getElementById("message_failed").innerHTML = "Vote mot de passe est incorrect, veuillez réessayer.";
+                document.getElementById("message_failed").style.display = "block";
+            }
+            if (email_unavailable) {
+                document.getElementById("message_failed").innerHTML = "Ce mail est déjà associé à un compte, veuillez réessayer.";
+                document.getElementById("message_failed").style.display = "block";
+            }
+            if (emails_not_match) {
+                document.getElementById("message_failed").innerHTML = "Les mails ne sont pas identiques, veuillez réessayer.";
+                document.getElementById("message_failed").style.display = "block";
+            }
+        });
+    </script>
 
 
 </body>

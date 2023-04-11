@@ -38,6 +38,21 @@ h1 {
     grid-template-rows: 20px 20px 20px;
 }
 
+#message_failed{
+    display: none;
+    justify-self: center;
+    align-self: center;
+    margin-bottom: 50px;
+    padding: 15px;
+    width: 100%;
+    background-color: #dcbaba;
+    color: #943a3a;
+    border: #ff3636;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 5px;
+}
+
 label{
     color: #ffffffb9;
     font-size: 18px;
@@ -45,10 +60,17 @@ label{
     align-self: center;
 }
 
-span{
+.grid span{
     font-size: 20px;
     align-self: center;
     padding-left: 10px;
+}
+
+#truncate {
+    white-space: nowrap;
+    overflow: clip;
+    text-overflow: ellipsis;
+    width: 80%;
 }
 
 a{
@@ -87,16 +109,43 @@ button {
     border-radius: 5px;
 }
 
-@media (max-width : 780px) {
+@media screen and (max-width: 670px) {
+
+    body {
+        display: grid;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #004C4C;
+    }
+
+    .container {
+        margin-top: 75px;
+        padding: 50px;
+        width: 300px;
+        background-color: rgba(255, 255, 255, 0.03);
+        border-radius: 10px;
+        backdrop-filter: blur(15px);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    }
+
     .grid{
         display: grid;
-        grid-template-columns: 160px 390px 0px;
+        justify-self: center;
+        grid-template-columns: 100px 200px 10px;
         grid-template-rows: 20px 20px 20px;
-        background-color: yellow;
+    }
+
+    label{
+        color: #ffffffb9;
+        font-size: 15px;
+        justify-self: flex-start;
+        align-self: center;
     }
 
     span{
-        font-size: larger;
+        font-size: medium;
         align-self: center;
         padding-left: 5px;
     }
