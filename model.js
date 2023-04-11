@@ -202,8 +202,6 @@ exports.get_upcoming_movies = async function () {
     try {
         const response = await axios.get(apiUrl);
         const movies = response.data.results;
-
-        // Trier les films par date de sortie
         movies.sort((a, b) => {
             if (a.release_date < b.release_date) {
                 return -1;
@@ -216,7 +214,7 @@ exports.get_upcoming_movies = async function () {
 
         return movies;
     } catch (err) {
-        console.error('Error fetching data from TMDB API:', err);
+        console.error('Error fetching data:', err);
         return [];
     }
 };
@@ -228,7 +226,6 @@ exports.get_popular = async function () {
         const response = await axios.get(apiUrl);
         const movies = response.data.results;
 
-        // Trie les films par date de sortie
         movies.sort((a, b) => {
             if (a.release_date > b.release_date) {
                 return -1;
@@ -241,7 +238,7 @@ exports.get_popular = async function () {
 
         return movies;
     } catch (err) {
-        console.error('Error fetching data from TMDB API:', err);
+        console.error('Error fetching data:', err);
         return [];
     }
 };

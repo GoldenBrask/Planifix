@@ -19,21 +19,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const secret = crypto.randomBytes(32).toString('hex');
 const api_key = 'e49d6088a7c6032be073e1e136e761fa';
 
-const cloudinary = require('cloudinary').v2;
-
-cloudinary.config({
-    cloud_name: 'dcktbp159',
-    api_key: '527681711682353',
-    api_secret: 'jTjVULtJ63B9kioQW-vTVz0gmfU',
-});
-
-const multer = require('multer');
-const { SourceTextModule } = require('vm');
-const { Cookie } = require('express-session');
-const upload = multer({ dest: 'uploads/' });
-
-
-
 app.use(cookieSession({
     secret: secret,
 }));
@@ -56,7 +41,7 @@ function is_authenticated(req, res, next) {
 
 app.use(is_authenticated);
 
-
+/////////*ROUTE GET **////////////
 /*PAGE D'ACCEUIL**/
 app.get('/', (req, res) => {
     if (!res.locals.authenticated) {
@@ -66,6 +51,8 @@ app.get('/', (req, res) => {
         res.redirect('/dashboard');
     }
 });
+
+
 
 /*CREE UN COMPTE**/
 app.get('/new_user', (req, res) => {
@@ -128,8 +115,6 @@ app.get('/dashboard', async (req, res) => {
     const upcomingMovies = await model.get_upcoming_movies();
     const popular = await model.get_popular();
 
-    console.log(upcomingMovies)
-
 
     res.render('dashboard', {
         items: userItems.items,
@@ -137,28 +122,6 @@ app.get('/dashboard', async (req, res) => {
         popular,
     });
 });
-
-// Route POST "/add"
-app.post('/add', async (req, res) => {
-
-    if (!res.locals.authenticated) {
-        res.redirect('/login');
-        return;
-    }
-    const { tmdb_id, title, date, poster, type } = req.body;
-
-    const user_id = res.locals.id;
-    const item_id = model.add_item(tmdb_id, title, date, poster, type, user_id);
-
-    const item_name = model.get_item(item_id).title;
-
-    if (item_id > 0) {
-        res.redirect(`/dashboard?added=${item_name}`);
-    } else {
-        res.redirect('/dashboard');
-    }
-});
-
 
 
 /*ESPACE UTILISATEUR**/
@@ -173,7 +136,6 @@ app.get('/user_space', (req, res) => {
     res.render('user_space', { user_name: user_name, email: user_email });
 });
 
-/* PROFILE CHANGE PAGES **/
 
 // Route GET "/change_username"
 app.get('/change_username', (req, res) => {
@@ -184,26 +146,6 @@ app.get('/change_username', (req, res) => {
     res.render('change_username');
 });
 
-// Route POST "change_username"
-app.post('/change_username', (req, res) => {
-    if (!res.locals.authenticated) {
-        res.redirect('/login');
-        return;
-    }
-
-    const user_id = res.locals.id;
-    const new_username = req.body.new_username;
-    const password = req.body.password;
-    const try_update_username = model.update_username(user_id, new_username, password);
-
-    if (try_update_username == 0) {
-        res.redirect(`/change_username?wrong_password=true`);
-    } else {
-        res.redirect('/user_space?change_successfully=true');
-    }
-
-
-});
 
 // Route GET "/change_email"
 app.get('/change_email', (req, res) => {
@@ -215,33 +157,6 @@ app.get('/change_email', (req, res) => {
     res.render('change_email');
 });
 
-// Route POST "/change_email"
-app.post('/change_email', (req, res) => {
-    if (!res.locals.authenticated) {
-        res.redirect('/login');
-        return;
-    }
-
-    const user_id = res.locals.id;
-    const new_email = req.body.new_email;
-    const confirm_new_email = req.body.confirm_new_email;
-    const password = req.body.password;
-    const try_update_email = model.update_email(user_id, new_email, confirm_new_email, password);
-    if (try_update_email == "wrong_password") {
-        res.redirect(`/change_email?wrong_password=true`);
-    }
-    else if (try_update_email == "email_unavailable") {
-        res.redirect(`/change_email?email_unavailable=true`);
-
-    } else if (try_update_email == "emails_not_match") {
-        res.redirect(`/change_email?emails_not_match=true`);
-    }
-    else {
-        res.redirect('/user_space?change_successfully=true');
-    }
-
-
-});
 
 // Route GET "/change_password"
 app.get('/change_password', (req, res) => {
@@ -251,93 +166,6 @@ app.get('/change_password', (req, res) => {
     }
 
     res.render('change_password');
-});
-
-// Route POST "/change_password"
-app.post('/change_password', (req, res) => {
-    if (!res.locals.authenticated) {
-        res.redirect('/login');
-        return;
-    }
-
-    const user_id = res.locals.id;
-    const password = req.body.password;
-    const new_password = req.body.new_password;
-    const confirm_new_password = req.body.confirm_new_password;
-    const try_update_password = model.update_password(user_id, password, new_password, confirm_new_password);
-
-    if (try_update_password == "wrong_password") {
-        res.redirect(`/change_password?wrong_password=true`);
-
-    } else if (try_update_password == "passwords_not_match") {
-        res.redirect(`/change_password?passwords_not_match=true`);
-    } else {
-        res.redirect('/user_space?change_successfully=true');
-
-    }
-
-
-});
-
-
-
-
-
-
-
-
-
-// Route GET "/anime"
-app.get('/anime', (req, res) => {
-    if (!res.locals.authenticated) {
-        res.redirect('/login');
-        return;
-    }
-    res.render('anime');
-});
-
-app.get('/event', (req, res) => {
-    if (!res.locals.authenticated) {
-        res.redirect('/login');
-        return;
-    }
-    res.render('event');
-});
-
-app.get('/show', (req, res) => {
-    if (!res.locals.authenticated) {
-        res.redirect('/login');
-        return;
-    }
-    res.render('show');
-});
-
-app.get('/movies', (req, res) => {
-    if (!res.locals.authenticated) {
-        res.redirect('/login');
-        return;
-    }
-    res.render('movies');
-});
-
-
-
-// Route POST "/delete/:id"
-app.post('/delete/:id', (req, res) => {
-    if (!res.locals.authenticated) {
-        res.redirect('/login');
-        return;
-    }
-    const item_id = req.params.id;
-    const item_name = model.get_item(item_id).title;
-    const success = model.delete_item(res.locals.id, item_id);
-
-    if (success) {
-        res.redirect(`/dashboard?deleted=${item_name}`);
-    } else {
-        res.redirect('/dashboard');
-    }
-
 });
 
 
@@ -366,8 +194,8 @@ app.get('/search', async (req, res) => {
 
         res.render('search', { results: filteredResults });
     } catch (err) {
-        console.error('Error fetching data from TMDB API:', err);
-        res.status(500).send('Erreur lors de la récupération des données de l\'API TMDB');
+        console.error('Error fetching data:', err);
+        res.status(500).send('Erreur lors de la récupération des données de');
     }
 });
 
@@ -401,7 +229,126 @@ app.get('/read/:id', async (req, res) => {
     }
 });
 
+/*\\\\\\\\\\\ROUTE GET \\\\\\\\\\\\\\\\\*/
 
 
+/////////*ROUTE POST **////////////
+
+// Route POST "/add"
+app.post('/add', async (req, res) => {
+
+    if (!res.locals.authenticated) {
+        res.redirect('/login');
+        return;
+    }
+    const { tmdb_id, title, date, poster, type } = req.body;
+
+    const user_id = res.locals.id;
+    const item_id = model.add_item(tmdb_id, title, date, poster, type, user_id);
+
+    const item_name = model.get_item(item_id).title;
+
+    if (item_id > 0) {
+        res.redirect(`/dashboard?added=${item_name}`);
+    } else {
+        res.redirect('/dashboard');
+    }
+});
+
+// Route POST "change_username"
+app.post('/change_username', (req, res) => {
+    if (!res.locals.authenticated) {
+        res.redirect('/login');
+        return;
+    }
+
+    const user_id = res.locals.id;
+    const new_username = req.body.new_username;
+    const password = req.body.password;
+    const try_update_username = model.update_username(user_id, new_username, password);
+
+    if (try_update_username == 0) {
+        res.redirect(`/change_username?wrong_password=true`);
+    } else {
+        res.redirect('/user_space?change_successfully=true');
+    }
+
+
+});
+
+
+// Route POST "/change_email"
+app.post('/change_email', (req, res) => {
+    if (!res.locals.authenticated) {
+        res.redirect('/login');
+        return;
+    }
+
+    const user_id = res.locals.id;
+    const new_email = req.body.new_email;
+    const confirm_new_email = req.body.confirm_new_email;
+    const password = req.body.password;
+    const try_update_email = model.update_email(user_id, new_email, confirm_new_email, password);
+    if (try_update_email == "wrong_password") {
+        res.redirect(`/change_email?wrong_password=true`);
+    }
+    else if (try_update_email == "email_unavailable") {
+        res.redirect(`/change_email?email_unavailable=true`);
+
+    } else if (try_update_email == "emails_not_match") {
+        res.redirect(`/change_email?emails_not_match=true`);
+    }
+    else {
+        res.redirect('/user_space?change_successfully=true');
+    }
+
+
+});
+
+// Route POST "/change_password"
+app.post('/change_password', (req, res) => {
+    if (!res.locals.authenticated) {
+        res.redirect('/login');
+        return;
+    }
+
+    const user_id = res.locals.id;
+    const password = req.body.password;
+    const new_password = req.body.new_password;
+    const confirm_new_password = req.body.confirm_new_password;
+    const try_update_password = model.update_password(user_id, password, new_password, confirm_new_password);
+
+    if (try_update_password == "wrong_password") {
+        res.redirect(`/change_password?wrong_password=true`);
+
+    } else if (try_update_password == "passwords_not_match") {
+        res.redirect(`/change_password?passwords_not_match=true`);
+    } else {
+        res.redirect('/user_space?change_successfully=true');
+
+    }
+
+
+});
+
+// Route POST "/delete/:id"
+app.post('/delete/:id', (req, res) => {
+    if (!res.locals.authenticated) {
+        res.redirect('/login');
+        return;
+    }
+    const item_id = req.params.id;
+    const item_name = model.get_item(item_id).title;
+    const success = model.delete_item(res.locals.id, item_id);
+
+    if (success) {
+        res.redirect(`/dashboard?deleted=${item_name}`);
+    } else {
+        res.redirect('/dashboard');
+    }
+
+});
+
+/*\\\\\\\\\\\ROUTE POST \\\\\\\\\\\\\\\\\*/
 
 app.listen(3000, () => console.log('listening on http://localhost:3000'));
