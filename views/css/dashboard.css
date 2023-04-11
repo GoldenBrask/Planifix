@@ -13,7 +13,6 @@ body {
     background-color: #004C4C;
 }
 
-/* Style de base de la fenêtre modale */
 .modal {
     display: none;
     position: fixed;
@@ -49,7 +48,7 @@ body {
     outline: 2px solid rgba(255, 255, 255, 0.067);
 }
 
-/* Contenu de la fenêtre modale */
+
 .modal-content {
     background-color: #fefefe;
     margin: 15% auto;
@@ -58,7 +57,6 @@ body {
     width: 80%;
 }
 
-/* Bouton de fermeture de la fenêtre modale */
 .close {
     color: #aaa;
     float: right;
@@ -140,7 +138,7 @@ h2 {
     width: 100%;
     white-space: nowrap;
     margin-bottom: 20px;
-    /*background-color: rgba(255, 0, 0, 0.062);*/
+
 
 }
 
@@ -383,6 +381,19 @@ button:hover {
 
 .banner-image a{
     cursor: pointer;
+}
+
+.emptymessage{
+    width: 100%;
+    font-weight: 900;
+    font-size: 2em;
+    color: white;
+    text-align: center;
+    padding-top: 60px;
+    margin-bottom: 30px;
+    background-color: #ffffff18;
+    height: 200px;
+    align-self: center;
 }
 
 

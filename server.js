@@ -59,21 +59,7 @@ app.get('/new_user', (req, res) => {
     res.render('new_user');
 });
 
-app.post('/new_user', (req, res) => {
-    const username = req.body.username;
-    const email = req.body.email.toLowerCase();
-    const password = req.body.password;
 
-    const new_user = model.new_user(username, email, password);
-    if (new_user == -1) {
-        res.redirect('/new_user?message=Vous avez deja un compte');
-    } else {
-        req.session.userid = new_user;
-        req.session.username = username;
-        res.redirect('/');
-    }
-
-});
 
 /*SE CONNECTER**/
 app.get('/login', (req, res) => {
@@ -84,20 +70,7 @@ app.get('/login', (req, res) => {
     }
 });
 
-app.post('/login', (req, res) => {
-    const email = req.body.email;
-    const password = req.body.password;
 
-    const user = model.login(email, password);
-
-    if (user == null) {
-        res.redirect('/login?message=Nom d\'utilisateur ou mot de passe incorrect.');
-    } else {
-        req.session.userid = user.id;
-        req.session.username = model.getUsername(user.id);
-        res.redirect('/dashboard');
-    }
-});
 
 /*SE DECONNECTER**/
 app.get('/logout', (req, res) => {
@@ -170,6 +143,10 @@ app.get('/change_password', (req, res) => {
 
 
 app.get('/search', async (req, res) => {
+    if (!res.locals.authenticated) {
+        res.redirect('/login');
+        return;
+    }
 
     const query = req.query.query;
     const filteredResults = [];
@@ -200,6 +177,10 @@ app.get('/search', async (req, res) => {
 });
 
 app.get('/read/:id', async (req, res) => {
+    if (!res.locals.authenticated) {
+        res.redirect('/login');
+        return;
+    }
     let apiUrl;
 
     if (req.query.type === 'movie' || req.query.type === 'Film') {
@@ -253,6 +234,40 @@ app.post('/add', async (req, res) => {
     } else {
         res.redirect('/dashboard');
     }
+});
+
+
+// Route POST "/login"
+app.post('/login', (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+
+    const user = model.login(email, password);
+
+    if (user == null) {
+        res.redirect('/login?message=Nom d\'utilisateur ou mot de passe incorrect.');
+    } else {
+        req.session.userid = user.id;
+        req.session.username = model.getUsername(user.id);
+        res.redirect('/dashboard');
+    }
+});
+
+// Route POST "new_user"
+app.post('/new_user', (req, res) => {
+    const username = req.body.username;
+    const email = req.body.email.toLowerCase();
+    const password = req.body.password;
+
+    const new_user = model.new_user(username, email, password);
+    if (new_user == -1) {
+        res.redirect('/new_user?message=Vous avez deja un compte');
+    } else {
+        req.session.userid = new_user;
+        req.session.username = username;
+        res.redirect('/');
+    }
+
 });
 
 // Route POST "change_username"

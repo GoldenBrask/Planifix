@@ -1,4 +1,3 @@
-/* navbar.css */
 .navbar {
     position: fixed;
     top: 0;
@@ -88,23 +87,19 @@ img {
     display: none;
 }
 
-/* navbar.css */
 .navbar-toggle-label {
     display: none;
     cursor: pointer;
     position: absolute;
     top: 50%;
-    right: 20px; /* ajustez cette valeur pour modifier l'espace entre l'image et le bord droit */
+    right: 20px; 
     transform: translateY(-50%);
 }
 
-
-/* navbar.css */
 .navbar-toggle:checked~ul {
     display: flex;
 }
 
-/* Pour les petits écrans et les téléphones mobiles */
 @media screen and (max-width: 480px) {
     .navbar ul {
         flex-direction: column;
