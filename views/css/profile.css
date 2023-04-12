@@ -32,13 +32,13 @@ h1 {
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 
-.grid{
+.grid {
     display: grid;
     grid-template-columns: 250px 400px 10px;
     grid-template-rows: 20px 20px 20px;
 }
 
-#message_failed{
+#message_failed {
     display: none;
     justify-self: center;
     align-self: center;
@@ -53,14 +53,14 @@ h1 {
     border-radius: 5px;
 }
 
-label{
+label {
     color: #ffffffb9;
     font-size: 18px;
     justify-self: flex-start;
     align-self: center;
 }
 
-.grid span{
+.grid span {
     font-size: 20px;
     align-self: center;
     padding-left: 10px;
@@ -73,7 +73,7 @@ label{
     width: 80%;
 }
 
-a{
+a {
     justify-self: end;
     align-self: center;
 }
@@ -81,11 +81,11 @@ a{
 
 /* Profile change pages */
 
-form{
+form {
     display: grid;
 }
 
-input{
+input {
     align-self: center;
     padding: 1%;
     margin: 1%;
@@ -111,18 +111,22 @@ button {
 
 @media screen and (max-width: 670px) {
 
-    body {
-        display: grid;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background-color: #004C4C;
+
+    h1 {
+
+        text-align: center;
+        margin-top: 90px;
+        color: #ffffff;
+        font-weight: 900;
+        width: 300px;
+
+
     }
 
     .container {
         margin-top: 75px;
         padding: 50px;
-        width: 300px;
+        width: 290px;
         background-color: rgba(255, 255, 255, 0.03);
         border-radius: 10px;
         backdrop-filter: blur(15px);
@@ -130,25 +134,24 @@ button {
         box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
     }
 
-    .grid{
+    .grid {
         display: grid;
         justify-self: center;
         grid-template-columns: 100px 200px 10px;
         grid-template-rows: 20px 20px 20px;
     }
 
-    label{
+    label {
         color: #ffffffb9;
         font-size: 15px;
         justify-self: flex-start;
         align-self: center;
     }
 
-    span{
+    span {
         font-size: medium;
         align-self: center;
         padding-left: 5px;
     }
 
 }
-
