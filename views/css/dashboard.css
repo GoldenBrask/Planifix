@@ -134,7 +134,7 @@ h2 {
 .slider {
     margin-top: 20px;
     display: flex;
-    overflow-x: hidden;
+    overflow: hidden;
     width: 100%;
     white-space: nowrap;
     margin-bottom: 20px;
