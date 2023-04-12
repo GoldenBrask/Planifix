@@ -402,10 +402,19 @@ button:hover {
     .searchOption{
         flex-direction: column;
     }
+    .slider{
+        overflow-x: hidden;
+        width: 100%;
+    }
 }
 
 @media screen and (max-width: 460px ) {
     .right{
       width: 10rem;
+    }
+
+    .slider{
+        overflow-x: hidden;
+        width: 100%;
     }
   }

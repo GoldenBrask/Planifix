@@ -1,21 +1,19 @@
 <script>
     "use strict"
-    // Récupérer les éléments
+
     const editButton = document.getElementById("addButton");
     const editModal = document.getElementById("editModal");
     const closeButton = document.querySelector(".close");
 
-    // Ouvrir la fenêtre modale lors du clic sur le bouton Modifier
     editButton.onclick = function () {
         editModal.style.display = "block";
     };
 
-    // Fermer la fenêtre modale lors du clic sur le bouton de fermeture (x)
     closeButton.onclick = function () {
         editModal.style.display = "none";
     };
 
-    // Fermer la fenêtre modale lors du clic en dehors du contenu de la fenêtre modale
+
     window.onclick = function (event) {
         if (event.target == editModal) {
             editModal.style.display = "none";
@@ -63,7 +61,7 @@
     const navbar = document.querySelector('.navbar');
 
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 0) { // Changer la valeur pour ajuster la position de défilement
+        if (window.scrollY > 0) { 
             navbar.classList.add('sticky');
         } else {
             navbar.classList.remove('sticky');

@@ -81,7 +81,6 @@ body {
     transition: .5s;
 }
 
-/* Media Query pour les tablettes */
 @media screen and (max-width: 768px) {
     .description {
         width: 90%;
@@ -96,7 +95,8 @@ body {
     
 }
 
-/* Media Query pour les mobiles */
+
+
 @media screen and (max-width: 425px) {
     h1 {
         margin-top: 30px;
