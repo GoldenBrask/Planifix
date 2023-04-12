@@ -122,8 +122,8 @@ exports.update_password = function (user_id, password, new_password, confirm_new
 exports.add_item = function (tmdb_id, title, date, poster, type, user_id) {
 
     const existingItem = db.prepare('SELECT * FROM item WHERE tmdb_id = ?').get(tmdb_id);
-
     let item_id;
+    
 
     if (existingItem) {
         item_id = existingItem.id;
@@ -137,7 +137,7 @@ exports.add_item = function (tmdb_id, title, date, poster, type, user_id) {
         item_id = result.lastInsertRowid;
     }
     const userItemAdded = addUserItem(user_id, item_id);
-    return userItemAdded ? item_id : null;
+    return item_id ;
 };
 
 
