@@ -25,11 +25,10 @@ app.use(cookieSession({
 
 
 
-function is_authenticated(req, res, next) {
+async function is_authenticated(req, res, next) {
     if (req.session && req.session.userid) {
-
         res.locals.authenticated = true;
-        res.locals.username = model.getUsername(req.session.userid);
+        res.locals.username = await model.getUsername(req.session.userid);
         res.locals.id = req.session.userid;
     } else {
         res.locals.authenticated = false;
@@ -84,7 +83,7 @@ app.get('/dashboard', async (req, res) => {
         res.redirect('/login');
         return;
     }
-    const userItems = model.get_user_items(res.locals.id);
+    const userItems = await model.get_user_items(res.locals.id);
     const upcomingMovies = await model.get_upcoming_movies();
     const popular = await model.get_popular();
 
@@ -98,14 +97,14 @@ app.get('/dashboard', async (req, res) => {
 
 
 /*ESPACE UTILISATEUR**/
-app.get('/user_space', (req, res) => {
+app.get('/user_space', async (req, res) => {
     if (!res.locals.authenticated) {
         res.redirect('/login');
         return;
     }
     const user_id = res.locals.id;
-    const user_name = model.getUsername(user_id);
-    const user_email = model.get_user_data(user_id);
+    const user_name = await model.getUsername(user_id);
+    const user_email = await model.get_user_data(user_id);
     res.render('user_space', { user_name: user_name, email: user_email });
 });
 
@@ -225,9 +224,9 @@ app.post('/add', async (req, res) => {
     const { tmdb_id, title, date, poster, type } = req.body;
 
     const user_id = res.locals.id;
-    const item_id = model.add_item(tmdb_id, title, date, poster, type, user_id);
+    const item_id = await model.add_item(tmdb_id, title, date, poster, type, user_id);
 
-    const item_name = model.get_item(item_id).title;
+    const item_name = (await model.get_item(item_id)).title;
 
     if (item_id > 0) {
         res.redirect(`/dashboard?added=${item_name}`);
@@ -238,28 +237,28 @@ app.post('/add', async (req, res) => {
 
 
 // Route POST "/login"
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
-    const user = model.login(email, password);
+    const user = await model.login(email, password);
 
     if (user == null) {
         res.redirect('/login?message=Nom d\'utilisateur ou mot de passe incorrect.');
     } else {
         req.session.userid = user.id;
-        req.session.username = model.getUsername(user.id);
+        req.session.username = await model.getUsername(user.id);
         res.redirect('/dashboard');
     }
 });
 
 // Route POST "new_user"
-app.post('/new_user', (req, res) => {
+app.post('/new_user', async (req, res) => {
     const username = req.body.username;
     const email = req.body.email.toLowerCase();
     const password = req.body.password;
 
-    const new_user = model.new_user(username, email, password);
+    const new_user = await model.new_user(username, email, password);
     if (new_user == -1) {
         res.redirect('/new_user?message=Vous avez deja un compte');
     } else {
@@ -271,7 +270,7 @@ app.post('/new_user', (req, res) => {
 });
 
 // Route POST "change_username"
-app.post('/change_username', (req, res) => {
+app.post('/change_username', async (req, res) => {
     if (!res.locals.authenticated) {
         res.redirect('/login');
         return;
@@ -280,7 +279,7 @@ app.post('/change_username', (req, res) => {
     const user_id = res.locals.id;
     const new_username = req.body.new_username;
     const password = req.body.password;
-    const try_update_username = model.update_username(user_id, new_username, password);
+    const try_update_username = await model.update_username(user_id, new_username, password);
 
     if (try_update_username == "wrong_password") {
         res.redirect(`/change_username?wrong_password=true`);
@@ -293,7 +292,7 @@ app.post('/change_username', (req, res) => {
 
 
 // Route POST "/change_email"
-app.post('/change_email', (req, res) => {
+app.post('/change_email', async (req, res) => {
     if (!res.locals.authenticated) {
         res.redirect('/login');
         return;
@@ -303,7 +302,7 @@ app.post('/change_email', (req, res) => {
     const new_email = req.body.new_email;
     const confirm_new_email = req.body.confirm_new_email;
     const password = req.body.password;
-    const try_update_email = model.update_email(user_id, new_email, confirm_new_email, password);
+    const try_update_email = await model.update_email(user_id, new_email, confirm_new_email, password);
     if (try_update_email == "wrong_password") {
         res.redirect(`/change_email?wrong_password=true`);
     }
@@ -321,7 +320,7 @@ app.post('/change_email', (req, res) => {
 });
 
 // Route POST "/change_password"
-app.post('/change_password', (req, res) => {
+app.post('/change_password', async (req, res) => {
     if (!res.locals.authenticated) {
         res.redirect('/login');
         return;
@@ -331,7 +330,7 @@ app.post('/change_password', (req, res) => {
     const password = req.body.password;
     const new_password = req.body.new_password;
     const confirm_new_password = req.body.confirm_new_password;
-    const try_update_password = model.update_password(user_id, password, new_password, confirm_new_password);
+    const try_update_password = await model.update_password(user_id, password, new_password, confirm_new_password);
 
     if (try_update_password == "wrong_password") {
         res.redirect(`/change_password?wrong_password=true`);
@@ -347,14 +346,14 @@ app.post('/change_password', (req, res) => {
 });
 
 // Route POST "/delete/:id"
-app.post('/delete/:id', (req, res) => {
+app.post('/delete/:id', async (req, res) => {
     if (!res.locals.authenticated) {
         res.redirect('/login');
         return;
     }
     const item_id = req.params.id;
-    const item_name = model.get_item(item_id).title;
-    const success = model.delete_item(res.locals.id, item_id);
+    const item_name = (await model.get_item(item_id)).title;
+    const success = await model.delete_item(res.locals.id, item_id);
 
     if (success) {
         res.redirect(`/dashboard?deleted=${item_name}`);
