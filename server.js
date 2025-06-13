@@ -2,8 +2,9 @@ var express = require('express');
 var mustache = require('mustache-express');
 const cookieSession = require('cookie-session');
 const crypto = require('crypto');
-const axios = require('axios');
-var model = require('./model');
+const model = require('./models');
+const authController = require('./controllers/authController');
+const itemController = require('./controllers/itemController');
 var app = express();
 app.engine('html', mustache());
 app.set('view engine', 'html');
@@ -17,7 +18,6 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 
 const secret = crypto.randomBytes(32).toString('hex');
-const api_key = 'e49d6088a7c6032be073e1e136e761fa';
 
 app.use(cookieSession({
     secret: secret,
@@ -42,172 +42,32 @@ app.use(is_authenticated);
 
 /////////*ROUTE GET **////////////
 /*PAGE D'ACCEUIL**/
-app.get('/', (req, res) => {
-    if (!res.locals.authenticated) {
-        res.render('index');
-    } else {
-
-        res.redirect('/dashboard');
-    }
-});
-
-
-
-/*CREE UN COMPTE**/
-app.get('/new_user', (req, res) => {
-    res.render('new_user');
-});
-
-
-
-/*SE CONNECTER**/
-app.get('/login', (req, res) => {
-    if (!res.locals.authenticated) {
-        res.render('login');
-    } else {
-        res.redirect('/dashboard');
-    }
-});
-
-
-
-/*SE DECONNECTER**/
-app.get('/logout', (req, res) => {
-    req.session = null;
-    res.redirect('/');
-});
-
-// Route GET "/dashboard"
-app.get('/dashboard', async (req, res) => {
-    if (!res.locals.authenticated) {
-        res.redirect('/login');
-        return;
-    }
-    const userItems = await model.get_user_items(res.locals.id);
-    const upcomingMovies = await model.get_upcoming_movies();
-    const popular = await model.get_popular();
-
-
-    res.render('dashboard', {
-        items: userItems.items,
-        upcomingMovies,
-        popular,
-    });
-});
+app.get('/', authController.index);
+app.get('/new_user', authController.showNewUser);
+app.get('/login', authController.showLogin);
+app.get('/logout', authController.logout);
+app.get('/dashboard', itemController.dashboard);
 
 
 /*ESPACE UTILISATEUR**/
-app.get('/user_space', async (req, res) => {
-    if (!res.locals.authenticated) {
-        res.redirect('/login');
-        return;
-    }
-    const user_id = res.locals.id;
-    const user_name = await model.getUsername(user_id);
-    const user_email = await model.get_user_data(user_id);
-    res.render('user_space', { user_name: user_name, email: user_email });
-});
+app.get('/user_space', authController.userSpace);
 
 
 // Route GET "/change_username"
-app.get('/change_username', (req, res) => {
-    if (!res.locals.authenticated) {
-        res.redirect('/login');
-        return;
-    }
-    res.render('change_username');
-});
+app.get('/change_username', authController.changeUsernameForm);
 
 
 // Route GET "/change_email"
-app.get('/change_email', (req, res) => {
-    if (!res.locals.authenticated) {
-        res.redirect('/login');
-        return;
-    }
-
-    res.render('change_email');
-});
+app.get('/change_email', authController.changeEmailForm);
 
 
 // Route GET "/change_password"
-app.get('/change_password', (req, res) => {
-    if (!res.locals.authenticated) {
-        res.redirect('/login');
-        return;
-    }
-
-    res.render('change_password');
-});
+app.get('/change_password', authController.changePasswordForm);
 
 
-app.get('/search', async (req, res) => {
-    if (!res.locals.authenticated) {
-        res.redirect('/login');
-        return;
-    }
+app.get('/search', itemController.search);
 
-    const query = req.query.query;
-    const filteredResults = [];
-
-    if (!query) {
-        res.render('search', { results: [] });
-        return;
-    }
-
-    const apiUrl = `https://api.themoviedb.org/3/search/multi?api_key=${api_key}&language=fr-FR&query=${encodeURIComponent(query)}&region=FR`;
-
-    try {
-        const response = await axios.get(apiUrl);
-        const results = response.data.results;
-
-        results.forEach(result => {
-            if (result.media_type === "movie" || result.media_type === "tv") {
-                // Ajoutez le résultat au tableau filtré s'il est de type "movie" ou "tv"
-                filteredResults.push(result);
-            }
-        });
-
-        res.render('search', { results: filteredResults });
-    } catch (err) {
-        console.error('Error fetching data:', err);
-        res.status(500).send('Erreur lors de la récupération des données de');
-    }
-});
-
-app.get('/read/:id', async (req, res) => {
-    if (!res.locals.authenticated) {
-        res.redirect('/login');
-        return;
-    }
-    let apiUrl;
-
-    if (req.query.type === 'movie' || req.query.type === 'Film') {
-        apiUrl = `https://api.themoviedb.org/3/movie/${req.params.id}?api_key=${api_key}&language=fr-FR&region=FR&append_to_response=watch/providers`;
-    } else if (req.query.type === 'tv' || req.query.type === 'Série' || req.query.type === 'Anime') {
-        apiUrl = `https://api.themoviedb.org/3/tv/${req.params.id}?api_key=${api_key}&language=fr-FR&region=FR&append_to_response=watch/providers`;
-    } else {
-        // Ajoutez une réponse d'erreur si le type n'est pas correct
-        res.status(400).send('Type de contenu non pris en charge. Veuillez spécifier "movie", "Film", "tv", "Série" ou "Anime" comme type.');
-        return;
-    }
-
-    try {
-        const response = await axios.get(apiUrl);
-        const movie = response.data;
-        const frenchProviders = movie['watch/providers'].results.FR;
-
-
-        movie.release_date = req.query.date;
-
-        console.log(movie)
-
-        res.render('read', { movie: movie, frenchProviders: frenchProviders });
-    } catch (err) {
-        console.error('Error fetching data from TMDB API:', err);
-        res.status(500).send('Erreur lors de la récupération des données');
-    }
-});
+app.get('/read/:id', itemController.read);
 
 /*\\\\\\\\\\\ROUTE GET \\\\\\\\\\\\\\\\\*/
 
@@ -215,153 +75,27 @@ app.get('/read/:id', async (req, res) => {
 /////////*ROUTE POST **////////////
 
 // Route POST "/add"
-app.post('/add', async (req, res) => {
-
-    if (!res.locals.authenticated) {
-        res.redirect('/login');
-        return;
-    }
-    const { tmdb_id, title, date, poster, type } = req.body;
-
-    const user_id = res.locals.id;
-    const item_id = await model.add_item(tmdb_id, title, date, poster, type, user_id);
-
-    const item_name = (await model.get_item(item_id)).title;
-
-    if (item_id > 0) {
-        res.redirect(`/dashboard?added=${item_name}`);
-    } else {
-        res.redirect('/dashboard');
-    }
-});
+app.post('/add', itemController.addItem);
 
 
 // Route POST "/login"
-app.post('/login', async (req, res) => {
-    const email = req.body.email;
-    const password = req.body.password;
-
-    const user = await model.login(email, password);
-
-    if (user == null) {
-        res.redirect('/login?message=Nom d\'utilisateur ou mot de passe incorrect.');
-    } else {
-        req.session.userid = user.id;
-        req.session.username = await model.getUsername(user.id);
-        res.redirect('/dashboard');
-    }
-});
+app.post('/login', authController.login);
 
 // Route POST "new_user"
-app.post('/new_user', async (req, res) => {
-    const username = req.body.username;
-    const email = req.body.email.toLowerCase();
-    const password = req.body.password;
-
-    const new_user = await model.new_user(username, email, password);
-    if (new_user == -1) {
-        res.redirect('/new_user?message=Vous avez deja un compte');
-    } else {
-        req.session.userid = new_user;
-        req.session.username = username;
-        res.redirect('/');
-    }
-
-});
+app.post('/new_user', authController.newUser);
 
 // Route POST "change_username"
-app.post('/change_username', async (req, res) => {
-    if (!res.locals.authenticated) {
-        res.redirect('/login');
-        return;
-    }
-
-    const user_id = res.locals.id;
-    const new_username = req.body.new_username;
-    const password = req.body.password;
-    const try_update_username = await model.update_username(user_id, new_username, password);
-
-    if (try_update_username == "wrong_password") {
-        res.redirect(`/change_username?wrong_password=true`);
-    } else {
-        res.redirect('/user_space?change_successfully=true');
-    }
-
-
-});
+app.post('/change_username', authController.changeUsername);
 
 
 // Route POST "/change_email"
-app.post('/change_email', async (req, res) => {
-    if (!res.locals.authenticated) {
-        res.redirect('/login');
-        return;
-    }
-
-    const user_id = res.locals.id;
-    const new_email = req.body.new_email;
-    const confirm_new_email = req.body.confirm_new_email;
-    const password = req.body.password;
-    const try_update_email = await model.update_email(user_id, new_email, confirm_new_email, password);
-    if (try_update_email == "wrong_password") {
-        res.redirect(`/change_email?wrong_password=true`);
-    }
-    else if (try_update_email == "email_unavailable") {
-        res.redirect(`/change_email?email_unavailable=true`);
-
-    } else if (try_update_email == "emails_not_match") {
-        res.redirect(`/change_email?emails_not_match=true`);
-    }
-    else {
-        res.redirect('/user_space?change_successfully=true');
-    }
-
-
-});
+app.post('/change_email', authController.changeEmail);
 
 // Route POST "/change_password"
-app.post('/change_password', async (req, res) => {
-    if (!res.locals.authenticated) {
-        res.redirect('/login');
-        return;
-    }
-
-    const user_id = res.locals.id;
-    const password = req.body.password;
-    const new_password = req.body.new_password;
-    const confirm_new_password = req.body.confirm_new_password;
-    const try_update_password = await model.update_password(user_id, password, new_password, confirm_new_password);
-
-    if (try_update_password == "wrong_password") {
-        res.redirect(`/change_password?wrong_password=true`);
-
-    } else if (try_update_password == "passwords_not_match") {
-        res.redirect(`/change_password?passwords_not_match=true`);
-    } else {
-        res.redirect('/user_space?change_successfully=true');
-
-    }
-
-
-});
+app.post('/change_password', authController.changePassword);
 
 // Route POST "/delete/:id"
-app.post('/delete/:id', async (req, res) => {
-    if (!res.locals.authenticated) {
-        res.redirect('/login');
-        return;
-    }
-    const item_id = req.params.id;
-    const item_name = (await model.get_item(item_id)).title;
-    const success = await model.delete_item(res.locals.id, item_id);
-
-    if (success) {
-        res.redirect(`/dashboard?deleted=${item_name}`);
-    } else {
-        res.redirect('/dashboard');
-    }
-
-});
+app.post('/delete/:id', itemController.deleteItem);
 
 /*\\\\\\\\\\\ROUTE POST \\\\\\\\\\\\\\\\\*/
 
